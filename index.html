@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>新加坡种子深科社区</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://yuge1031.github.io/my-page/seedtech-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      min-height: 100vh;
+    }
+    /* 密码页遮罩科技风背景+模糊 */
+    #passwordOverlay {
+      position: fixed;
+      z-index: 9999;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      background: url('/mnt/data/231ca5d4-6f75-4abf-96bb-81edb4929420.png') no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(3.5px) brightness(1.08);
+      background-color: rgba(34, 85, 170, 0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.4s;
+      animation: fadeInBg 1.2s cubic-bezier(.22,.68,.51,1.16);
+    }
+    @keyframes fadeInBg {
+      from { opacity: 0;}
+      to { opacity: 1;}
+    }
+    #passwordOverlay h3 {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #e3f2fd;
+      text-shadow: 0 4px 16px #1565c0cc, 0 2px 8px #fff6;
+      margin-bottom: 18px;
+    }
+    #passwordOverlay input, #passwordOverlay button {
+      box-shadow: 0 4px 32px rgba(33,150,243,0.15);
+      background: rgba(255,255,255,0.85);
+      border: 1.5px solid #61aefb;
+      border-radius: 10px;
+      font-size: 18px;
+      margin-bottom: 12px;
+      margin-top: 0;
+    }
+    #passwordOverlay input {
+      padding: 10px 16px;
+      width: 260px;
+    }
+    #passwordOverlay button {
+      padding: 10px 38px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-left: 0;
+      background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 2px 16px #00eaff30;
+      transition: background 0.18s, transform 0.15s;
+      cursor: pointer;
+    }
+    #passwordOverlay button:hover {
+      background: linear-gradient(90deg, #1976d2 40%, #26c6da 100%);
+      transform: translateY(-1px) scale(1.03);
+    }
+    #errorHint {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #f44336;
+      font-weight: bold;
+      text-shadow: 0 2px 8px #fff6;
+    }
+    header {
+      background-color: rgba(26, 115, 232, 0.9);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 2;
+    }
+    h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+    main {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input[type="text"], button {
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #1665c1;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: flex-start;
+    }
+    .item {
+      background-color: white;
+      border-radius: 8px;
+      padding: 16px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .item:hover {
+      background-color: #f1f3f5;
+      transform: translateY(-2px);
+    }
+    .item > div:first-child {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .actions button {
+      flex: 1;
+      padding: 8px;
+      font-size: 14px;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+  <div id="passwordOverlay">
+    <h3>请输入访问密码</h3>
+    <input type="password" id="accessPassword" placeholder="输入密码" />
+    <button onclick="checkPassword()">进入</button>
+    <p id="errorHint" style="display: none;">密码错误，请重试</p>
+  </div>
+
+  <header>
+    <h2>新加坡种子深科社区</h2>
+  </header>
+
+  <main>
+    <div class="input-group">
+      <input type="text" id="newItem" placeholder="输入选项名称" />
+      <button onclick="addItem()">添加选项</button>
+      <input type="text" id="searchBox" placeholder="搜索选项或内容" oninput="searchItems()" />
+    </div>
+    <div id="itemList" class="container">加载中...</div>
+  </main>
+
+  <script>
+    const CORRECT_PASSWORD = "qwe96300";
+    function checkPassword() {
+      const input = document.getElementById("accessPassword").value;
+      if (input === CORRECT_PASSWORD) {
+        document.getElementById("passwordOverlay").style.display = "none";
+      } else {
+        document.getElementById("errorHint").style.display = "block";
+      }
+    }
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZFBRN2YfUdSSiCsIy63iMUqwdOqUZO1k",
+      authDomain: "yuge1031-45725.firebaseapp.com",
+      databaseURL: "https://yuge1031-45725-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "yuge1031-45725",
+      storageBucket: "yuge1031-45725.appspot.com",
+      messagingSenderId: "131078767676",
+      appId: "1:131078767676:web:89418f134456102c9aaf39"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const itemList = document.getElementById("itemList");
+
+    function renderAllItems(data, order) {
+      itemList.innerHTML = "";
+      (order || Object.keys(data)).forEach(name => {
+        if (data[name] !== undefined) createItemElement(name, data[name]);
+      });
+    }
+
+    function createItemElement(itemName, content = "") {
+      const container = document.createElement("div");
+      container.className = "item";
+      container.dataset.name = itemName;
+      const title = document.createElement("div");
+      title.textContent = itemName;
+      title.onclick = () => openEditor(itemName);
+      const actions = document.createElement("div");
+      actions.className = "actions";
+      actions.innerHTML = `<button onclick="renameItem('${itemName}', event)">修改</button>
+                           <button onclick="deleteItem('${itemName}', event)">删除</button>`;
+      container.appendChild(title);
+      container.appendChild(actions);
+      itemList.appendChild(container);
+    }
+
+    function addItem() {
+      const name = document.getElementById("newItem").value.trim();
+      if (!name) return alert("请输入名称");
+      db.ref('data/' + name).once("value").then(snapshot => {
+        if (snapshot.exists()) return alert("该选项已存在！");
+        db.ref('data/' + name).set("");
+        db.ref('order').once("value").then(snap => {
+          const order = snap.val() || [];
+          order.push(name);
+          db.ref('order').set(order);
+        });
+        document.getElementById("newItem").value = "";
+      });
+    }
+
+    function renameItem(oldName, e) {
+      e.stopPropagation();
+      const newName = prompt("请输入新的名称", oldName);
+      if (!newName || newName === oldName) return;
+      db.ref('data/' + oldName).once("value").then(snapshot => {
+        const content = snapshot.val();
+        db.ref('data/' + oldName).remove();
+        db.ref('data/' + newName).set(content);
+        db.ref('order').once("value").then(snap => {
+          const order = (snap.val() || []).map(n => n === oldName ? newName : n);
+          db.ref('order').set(order);
+        });
+      });
+    }
+
+    function deleteItem(name, e) {
+      e.stopPropagation();
+      if (!confirm("确认删除？")) return;
+      db.ref('data/' + name).remove();
+      db.ref('order').once("value").then(snap => {
+        const order = (snap.val() || []).filter(n => n !== name);
+        db.ref('order').set(order);
+      });
+    }
+
+    function openEditor(name) {
+      db.ref('data/' + name).once("value").then(snapshot => {
+        const content = snapshot.val() || "";
+        const size = JSON.parse(localStorage.getItem('editorSize') || '{"width":1000,"height":700}');
+        const left = (screen.width - size.width) / 2;
+        const top = (screen.height - size.height) / 2;
+        const win = window.open("", "", `width=${size.width},height=${size.height},left=${left},top=${top},resizable=yes`);
+        win.document.write(`<!DOCTYPE html><html><head><meta charset='utf-8'><title>编辑内容</title>
+          <style>
+            body { font-family: Microsoft YaHei; margin: 0; padding: 10px; }
+            #editorContent { width: 100%; height: 90vh; border: 1px solid #ccc; padding: 10px; font-size: 16px; overflow: auto; white-space: pre-wrap; word-wrap: break-word; }
+            button { margin-top: 10px; padding: 6px 12px; background-color: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 16px; }
+          </style>
+        </head>
+        <body>
+          <div id='editorContent' contenteditable='true'>${content}</div>
+          <button onclick="window.opener.saveFromEditor('${name}', document.getElementById('editorContent').innerHTML);window.close();">保存并关闭</button>
+          <script>
+            window.onresize = () => {
+              const newSize = { width: window.outerWidth, height: window.outerHeight };
+              window.opener.postMessage({ type: 'saveEditorSize', size: newSize }, '*');
+            }
+          <\/script>
+        </body>
+        </html>`);
+      });
+    }
+
+    function saveFromEditor(name, html) {
+      db.ref('data/' + name).set(html);
+    }
+
+    function searchItems() {
+      const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
+      db.ref('data').once("value").then(snap => {
+        const data = snap.val() || {};
+        db.ref('order').once("value").then(orderSnap => {
+          const order = orderSnap.val() || Object.keys(data);
+          const filtered = {};
+          for (let k of order) {
+            if (k.toLowerCase().includes(keyword) || (data[k] && data[k].toLowerCase().includes(keyword))) {
+              filtered[k] = data[k];
+            }
+          }
+          renderAllItems(filtered, Object.keys(filtered));
+        });
+      });
+    }
+
+    window.addEventListener("message", e => {
+      if (e.data?.type === 'saveEditorSize') {
+        localStorage.setItem("editorSize", JSON.stringify(e.data.size));
+      }
+    });
+
+    db.ref().on("value", snapshot => {
+      const val = snapshot.val() || {};
+      renderAllItems(val.data || {}, val.order || []);
+    });
+
+    new Sortable(itemList, {
+      animation: 150,
+      onEnd: function () {
+        const newOrder = [...itemList.children].map(div => div.dataset.name);
+        db.ref('order').set(newOrder);
+      }
+    });
+  </script>
+</body>
+</html>
