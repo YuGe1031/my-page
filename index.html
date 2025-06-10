@@ -5,7 +5,9 @@
   <title>新加坡种子深科社区</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <style>
-    :root { --bg-img: url('https://yuge1031.github.io/my-page/seedtech-bg.jpg'); }
+    :root { 
+      --bg-img: url('https://firebasestorage.googleapis.com/v0/b/yuge1031-45725.firebasestorage.app/o/8826455a02017711249cb4ee3f0c3e84.jpg?alt=media&token=b2ee9dc3-d05d-4434-98a2-a1b17b7c784d'); 
+    }
     * { box-sizing: border-box; }
     body {
       font-family: 'Microsoft YaHei', sans-serif;
@@ -33,25 +35,6 @@
       z-index: 2;
       background: rgba(255,255,255,0.72);
       box-shadow: 0 4px 16px #1976d219;
-    }
-    .bg-select-btn {
-      position: absolute;
-      right: 32px;
-      top: 32px;
-      z-index: 5;
-      border: none;
-      border-radius: 10px;
-      padding: 8px 20px;
-      font-size: 16px;
-      background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
-      color: #fff;
-      box-shadow: 0 2px 6px #00eaff26;
-      cursor: pointer;
-      transition: background 0.13s, transform 0.13s;
-    }
-    .bg-select-btn:hover {
-      background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
-      transform: translateY(-1px) scale(1.04);
     }
     main {
       margin: 40px auto;
@@ -250,41 +233,14 @@
       transition: background 0.13s;
     }
     .edit-actions button.cancel { background: #b8b8b8; color: #fff;}
-    /* 选择背景弹窗 */
-    .bg-modal { position: fixed; inset: 0; background:rgba(0,0,0,0.15); display:none; z-index: 999; justify-content: center; align-items: center;}
-    .bg-modal.active { display:flex;}
-    .bg-box {
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 6px 38px #2075da16;
-      padding: 22px 24px 18px 24px;
-      max-width: 500px;
-      min-width: 320px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-height: 90vh;
-      overflow: auto;
-    }
-    .bg-gallery { display:flex; flex-wrap:wrap; gap:16px; margin:16px 0 8px 0; justify-content: flex-start;}
-    .bg-thumb {
-      width: 112px; height: 72px; object-fit:cover;
-      border:2px solid #b5e2ff; border-radius:8px; cursor:pointer;
-      transition: border 0.15s, box-shadow 0.14s;
-    }
-    .bg-thumb.selected {
-      border:3px solid #1a73e8;
-      box-shadow: 0 0 0 4px #1de9b670;
-    }
-    .bg-close-btn {margin-top: 10px; border-radius:7px; border:none; padding:6px 20px; background:#b5b5b5;color:#fff; font-size:15px;}
     @media (max-width:900px) {
       main { padding: 4vw 2vw; }
       .container { gap: 18px 7px; }
       .item { min-width: 130px; }
-      .edit-box, .bg-box { min-width: 0; padding: 12px 3vw 10px 3vw;}
+      .edit-box { min-width: 0; padding: 12px 3vw 10px 3vw;}
     }
     @media (max-width:600px) {
-      .edit-box, .bg-box { padding: 7px 1vw 9px 1vw;}
+      .edit-box { padding: 7px 1vw 9px 1vw;}
       .input-group { padding: 9px 2vw; }
       .item { padding: 7px 2vw 10px 2vw; }
       main { border-radius: 0; margin: 0; }
@@ -371,7 +327,6 @@
     <p id="errorHint" style="display: none;">密码错误，请重试</p>
   </div>
   <div id="mainApp">
-    <button class="bg-select-btn" onclick="openBgModal()">修改背景</button>
     <header>
       <span>新加坡种子深科社区</span>
     </header>
@@ -395,14 +350,6 @@
         </div>
       </div>
     </div>
-    <!-- 选择背景弹窗 -->
-    <div id="bgModal" class="bg-modal">
-      <div class="bg-box">
-        <div style="margin:10px 0 4px 0;color:#1976d2;font-size:16px;align-self:flex-start;">已上传背景（点击设置为背景）：</div>
-        <div class="bg-gallery" id="bgGallery"></div>
-        <button class="bg-close-btn" onclick="closeBgModal()">关闭</button>
-      </div>
-    </div>
   </div>
   <script>
     // firebase配置
@@ -417,7 +364,6 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const storage = firebase.storage();
 
     // 密码逻辑
     const CORRECT_PASSWORD = "qwe96300";
@@ -433,78 +379,6 @@
     document.getElementById("accessPassword").addEventListener("keydown", function(e){
       if(e.key === "Enter") checkPassword();
     });
-
-    // 背景功能
-    const DEFAULT_BG = "https://yuge1031.github.io/my-page/seedtech-bg.jpg";
-    function setBg(url) {
-      document.body.style.setProperty('--bg-img', `url('${url}')`);
-    }
-    db.ref('globalBgUrl').on('value', snap => {
-      let bgUrl = snap.val();
-      setBg(bgUrl || DEFAULT_BG);
-      highlightSelectedBg(bgUrl || DEFAULT_BG);
-    });
-    function openBgModal() {
-      document.getElementById("bgModal").classList.add("active");
-      loadBgGallery();
-    }
-    function closeBgModal() {
-      document.getElementById("bgModal").classList.remove("active");
-    }
-    // 显示所有已上传背景，自动添加你给的gs://图片
-    async function loadBgGallery() {
-      const galleryDiv = document.getElementById('bgGallery');
-      galleryDiv.innerHTML = "加载中...";
-      let list = [];
-      try {
-        const listResult = await storage.ref('global-bg/').listAll();
-        list = await Promise.all(listResult.items.map(async (item) => {
-          const url = await item.getDownloadURL();
-          return { url, name: item.name };
-        }));
-      } catch (e) { list = []; }
-      // 补充gs://链接（你可随意增删）
-      const gsArr = [
-        "gs://yuge1031-45725.firebasestorage.app/8826455a02017711249cb4ee3f0c3e84.jpg",
-        "gs://yuge1031-45725.firebasestorage.app/Shika小鹿鹿角色扮演4k电脑桌面壁纸_花猫壁纸(huamaobizhi.com).jpg",
-        "gs://yuge1031-45725.firebasestorage.app/photo_2022-05-15_18-19-50.jpg",
-        "gs://yuge1031-45725.firebasestorage.app/photo_2025-06-08_16-21-47.jpg",
-        "gs://yuge1031-45725.firebasestorage.app/宮本桜奥古斯特_花猫壁纸(huamaobizhi.com).jpg"
-      ];
-      // 过滤已包含的name，只补充没有的
-      for(let gs of gsArr){
-        let fileName = decodeURIComponent(gs.split('/').pop());
-        if(list.findIndex(item => item.name===fileName)!==-1) continue;
-        try {
-          let ref = storage.ref('global-bg/' + fileName);
-          let url = await ref.getDownloadURL();
-          list.push({url, name:fileName});
-        } catch(e){}
-      }
-      galleryDiv.innerHTML = '';
-      if (list.length === 0) {
-        galleryDiv.innerHTML = '<div style="color:#999;font-size:14px;">暂无已上传图片</div>';
-        return;
-      }
-      db.ref('globalBgUrl').once('value').then(snap => {
-        const currentUrl = snap.val() || DEFAULT_BG;
-        list.forEach(({url}) => {
-          const img = document.createElement("img");
-          img.src = url;
-          img.className = "bg-thumb" + (url===currentUrl ? " selected":"");
-          img.onclick = ()=> {
-            db.ref('globalBgUrl').set(url);
-            highlightSelectedBg(url);
-          };
-          galleryDiv.appendChild(img);
-        });
-      });
-    }
-    function highlightSelectedBg(url) {
-      document.querySelectorAll('.bg-thumb').forEach(img => {
-        img.classList.toggle('selected', img.src===url);
-      });
-    }
 
     // 选项卡功能
     const itemList = document.getElementById("itemList");
@@ -593,15 +467,9 @@
       if(document.getElementById("editModal").classList.contains("active")) {
         if(e.key==="Escape") closeEdit();
       }
-      if(document.getElementById("bgModal").classList.contains("active")) {
-        if(e.key==="Escape") closeBgModal();
-      }
     });
     document.getElementById("editModal").addEventListener("click", function(e){
       if(e.target === this) closeEdit();
-    });
-    document.getElementById("bgModal").addEventListener("click", function(e){
-      if(e.target === this) closeBgModal();
     });
 
     function searchItems() {
