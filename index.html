@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>新加坡种子深科社区</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <style>
     * { box-sizing: border-box; }
     body {
@@ -14,14 +15,12 @@
       color: #333;
       min-height: 100vh;
     }
-    /* 密码页遮罩科技风背景+模糊 */
     #passwordOverlay {
       position: fixed;
       z-index: 9999;
       width: 100vw;
       height: 100vh;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       background: url('/mnt/data/231ca5d4-6f75-4abf-96bb-81edb4929420.png') no-repeat center center fixed;
       background-size: cover;
       backdrop-filter: blur(3.5px) brightness(1.08);
@@ -32,13 +31,14 @@
       align-items: center;
       transition: background-color 0.4s;
       animation: fadeInBg 1.2s cubic-bezier(.22,.68,.51,1.16);
+      padding: 0 16px;
     }
     @keyframes fadeInBg {
       from { opacity: 0;}
       to { opacity: 1;}
     }
     #passwordOverlay h3 {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
       letter-spacing: 2px;
       color: #e3f2fd;
@@ -56,19 +56,23 @@
     }
     #passwordOverlay input {
       padding: 10px 16px;
-      width: 260px;
+      width: 90vw;
+      max-width: 260px;
+      min-width: 120px;
     }
     #passwordOverlay button {
       padding: 10px 38px;
       font-size: 18px;
       font-weight: bold;
-      margin-left: 0;
       background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
       color: #fff;
       border: none;
       box-shadow: 0 2px 16px #00eaff30;
       transition: background 0.18s, transform 0.15s;
       cursor: pointer;
+      width: 90vw;
+      max-width: 260px;
+      min-width: 120px;
     }
     #passwordOverlay button:hover {
       background: linear-gradient(90deg, #1976d2 40%, #26c6da 100%);
@@ -84,62 +88,79 @@
     header {
       background-color: rgba(26, 115, 232, 0.9);
       color: white;
-      padding: 20px;
+      padding: 20px 0;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: relative;
       z-index: 2;
+      width: 100%;
     }
     h2 {
       margin: 0;
-      font-size: 24px;
+      font-size: 22px;
     }
     main {
-      padding: 20px;
+      padding: 14px;
       max-width: 1200px;
       margin: auto;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.93);
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       position: relative;
       z-index: 2;
+      width: 98vw;
+      min-height: 400px;
     }
     .input-group {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 18px;
     }
-    input[type="text"], button {
-      padding: 10px 14px;
+    .input-group input[type="text"], .input-group button {
+      padding: 10px 12px;
       font-size: 16px;
       border-radius: 6px;
       border: 1px solid #ccc;
       outline: none;
+      flex: 1 1 100px;
+      min-width: 100px;
+      max-width: 240px;
+      box-sizing: border-box;
     }
-    button {
+    .input-group button {
       background-color: #1a73e8;
       color: white;
       border: none;
       transition: background-color 0.2s;
     }
-    button:hover {
+    .input-group button:hover {
       background-color: #1665c1;
     }
+
     .container {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 14px;
       justify-content: flex-start;
     }
     .item {
       background-color: white;
       border-radius: 8px;
-      padding: 16px;
-      width: 280px;
+      width: 320px;
+      height: 110px;
+      max-width: 98vw;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       box-shadow: 0 4px 8px rgba(0,0,0,0.05);
       transition: transform 0.2s, background-color 0.2s;
+      margin: 0 auto;
+      word-break: break-all;
+      padding: 0 12px;
     }
     .item:hover {
       background-color: #f1f3f5;
@@ -148,18 +169,62 @@
     .item > div:first-child {
       font-weight: bold;
       font-size: 18px;
-      margin-bottom: 10px;
-      cursor: pointer;
+      margin-bottom: 12px;
+      text-align: center;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .actions {
       display: flex;
-      justify-content: space-between;
-      gap: 10px;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
     }
     .actions button {
-      flex: 1;
-      padding: 8px;
-      font-size: 14px;
+      flex: none;
+      min-width: 60px;
+      max-width: 80px;
+      padding: 8px 0;
+      font-size: 15px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #1a73e8 70%, #1de9b6 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 2px 6px #00eaff26;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.13s;
+      margin: 0 4px;
+    }
+    .actions button:hover {
+      background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
+      transform: translateY(-1px) scale(1.04);
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 4vw;
+        width: 100vw;
+        border-radius: 0;
+        min-height: 320px;
+      }
+      .item {
+        width: 98vw;
+        min-width: 0;
+        max-width: 100vw;
+        height: 90px;
+        padding: 0 4vw;
+      }
+      .item > div:first-child {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      .actions button {
+        min-width: 52px;
+        max-width: 90px;
+        font-size: 14px;
+        padding: 7px 0;
+      }
     }
   </style>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -282,10 +347,15 @@
         const top = (screen.height - size.height) / 2;
         const win = window.open("", "", `width=${size.width},height=${size.height},left=${left},top=${top},resizable=yes`);
         win.document.write(`<!DOCTYPE html><html><head><meta charset='utf-8'><title>编辑内容</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
           <style>
             body { font-family: Microsoft YaHei; margin: 0; padding: 10px; }
             #editorContent { width: 100%; height: 90vh; border: 1px solid #ccc; padding: 10px; font-size: 16px; overflow: auto; white-space: pre-wrap; word-wrap: break-word; }
             button { margin-top: 10px; padding: 6px 12px; background-color: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 16px; }
+            @media (max-width: 600px) {
+              #editorContent { height: 60vh; font-size: 15px; }
+              button { font-size: 15px; padding: 8px 10px; }
+            }
           </style>
         </head>
         <body>
