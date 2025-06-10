@@ -5,15 +5,19 @@
   <title>新加坡种子深科社区</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <style>
+    :root {
+      --bg-img: url('https://yuge1031.github.io/my-page/seedtech-bg.jpg');
+    }
     * { box-sizing: border-box; }
     body {
       font-family: 'Microsoft YaHei', sans-serif;
       margin: 0;
       padding: 0;
-      background: url('https://yuge1031.github.io/my-page/seedtech-bg.jpg') no-repeat center center fixed;
+      background: var(--bg-img) no-repeat center center fixed;
       background-size: cover;
       color: #333;
       min-height: 100vh;
+      transition: background-image 0.25s;
     }
     #passwordOverlay {
       position: fixed;
@@ -21,7 +25,7 @@
       width: 100vw;
       height: 100vh;
       top: 0; left: 0;
-      background: url('/mnt/data/231ca5d4-6f75-4abf-96bb-81edb4929420.png') no-repeat center center fixed;
+      background: var(--bg-img) no-repeat center center fixed;
       background-size: cover;
       backdrop-filter: blur(3.5px) brightness(1.08);
       background-color: rgba(34, 85, 170, 0.25);
@@ -85,6 +89,24 @@
       font-weight: bold;
       text-shadow: 0 2px 8px #fff6;
     }
+    .upload-bg-btn {
+      display: inline-block;
+      margin: 18px 0 0 18px;
+      padding: 7px 18px;
+      border-radius: 7px;
+      font-size: 16px;
+      background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 2px 6px #00eaff26;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.13s;
+    }
+    .upload-bg-btn:hover {
+      background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
+      transform: translateY(-1px) scale(1.04);
+    }
+    .upload-bg-input { display: none; }
     header {
       background-color: rgba(26, 115, 232, 0.9);
       color: white;
@@ -138,7 +160,6 @@
     .input-group button:hover {
       background-color: #1665c1;
     }
-
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -227,8 +248,10 @@
       }
     }
   </style>
+  <!-- firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
@@ -238,11 +261,13 @@
     <button onclick="checkPassword()">进入</button>
     <p id="errorHint" style="display: none;">密码错误，请重试</p>
   </div>
+  <!-- 上传背景按钮 -->
+  <button class="upload-bg-btn" onclick="document.getElementById('uploadBgInput').click()">上传背景</button>
+  <input type="file" accept="image/*" id="uploadBgInput" class="upload-bg-input" />
 
   <header>
     <h2>新加坡种子深科社区</h2>
   </header>
-
   <main>
     <div class="input-group">
       <input type="text" id="newItem" placeholder="输入选项名称" />
@@ -253,16 +278,7 @@
   </main>
 
   <script>
-    const CORRECT_PASSWORD = "qwe96300";
-    function checkPassword() {
-      const input = document.getElementById("accessPassword").value;
-      if (input === CORRECT_PASSWORD) {
-        document.getElementById("passwordOverlay").style.display = "none";
-      } else {
-        document.getElementById("errorHint").style.display = "block";
-      }
-    }
-
+    // --- firebase配置 ---
     const firebaseConfig = {
       apiKey: "AIzaSyAZFBRN2YfUdSSiCsIy63iMUqwdOqUZO1k",
       authDomain: "yuge1031-45725.firebaseapp.com",
@@ -274,15 +290,57 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const itemList = document.getElementById("itemList");
+    const storage = firebase.storage();
 
+    // --- 同步全局背景 ---
+    const DEFAULT_BG = "https://yuge1031.github.io/my-page/seedtech-bg.jpg";
+    function setBg(url) {
+      document.body.style.setProperty('--bg-img', `url('${url}')`);
+      document.getElementById('passwordOverlay').style.setProperty('background', `url('${url}') no-repeat center center fixed`);
+      document.getElementById('passwordOverlay').style.setProperty('background-size', `cover`);
+    }
+    // 监听数据库的背景字段（所有人同步变化）
+    db.ref('globalBgUrl').on('value', snap => {
+      let bgUrl = snap.val();
+      setBg(bgUrl || DEFAULT_BG);
+    });
+
+    // 上传图片并写入数据库
+    document.getElementById('uploadBgInput').addEventListener('change', async function(e){
+      let file = this.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) return alert('请选择图片文件');
+      let ext = file.name.split('.').pop();
+      let fileName = 'bg_' + Date.now() + '.' + ext;
+      let ref = storage.ref('global-bg/' + fileName);
+      try {
+        let snapshot = await ref.put(file);
+        let url = await snapshot.ref.getDownloadURL();
+        db.ref('globalBgUrl').set(url); // 写入数据库，所有人同步变更
+        alert('背景已设置！所有人可见。');
+      } catch(err) {
+        alert('上传失败: ' + err.message);
+      }
+      this.value = '';
+    });
+
+    // ---- 其余功能不变 ----
+    const CORRECT_PASSWORD = "qwe96300";
+    function checkPassword() {
+      const input = document.getElementById("accessPassword").value;
+      if (input === CORRECT_PASSWORD) {
+        document.getElementById("passwordOverlay").style.display = "none";
+      } else {
+        document.getElementById("errorHint").style.display = "block";
+      }
+    }
+    const itemList = document.getElementById("itemList");
     function renderAllItems(data, order) {
       itemList.innerHTML = "";
       (order || Object.keys(data)).forEach(name => {
         if (data[name] !== undefined) createItemElement(name, data[name]);
       });
     }
-
     function createItemElement(itemName, content = "") {
       const container = document.createElement("div");
       container.className = "item";
@@ -298,7 +356,6 @@
       container.appendChild(actions);
       itemList.appendChild(container);
     }
-
     function addItem() {
       const name = document.getElementById("newItem").value.trim();
       if (!name) return alert("请输入名称");
@@ -313,7 +370,6 @@
         document.getElementById("newItem").value = "";
       });
     }
-
     function renameItem(oldName, e) {
       e.stopPropagation();
       const newName = prompt("请输入新的名称", oldName);
@@ -328,7 +384,6 @@
         });
       });
     }
-
     function deleteItem(name, e) {
       e.stopPropagation();
       if (!confirm("确认删除？")) return;
@@ -338,7 +393,6 @@
         db.ref('order').set(order);
       });
     }
-
     function openEditor(name) {
       db.ref('data/' + name).once("value").then(snapshot => {
         const content = snapshot.val() || "";
@@ -371,11 +425,9 @@
         </html>`);
       });
     }
-
     function saveFromEditor(name, html) {
       db.ref('data/' + name).set(html);
     }
-
     function searchItems() {
       const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
       db.ref('data').once("value").then(snap => {
@@ -392,18 +444,15 @@
         });
       });
     }
-
     window.addEventListener("message", e => {
       if (e.data?.type === 'saveEditorSize') {
         localStorage.setItem("editorSize", JSON.stringify(e.data.size));
       }
     });
-
     db.ref().on("value", snapshot => {
       const val = snapshot.val() || {};
       renderAllItems(val.data || {}, val.order || []);
     });
-
     new Sortable(itemList, {
       animation: 150,
       onEnd: function () {
