@@ -600,13 +600,15 @@
       renderAllItems(val.data || {}, val.order || []);
     });
 
-    new Sortable(itemList, {
-      animation: 150,
-      onEnd: function () {
-        const newOrder = [...itemList.children].map(div => div.dataset.name);
-        db.ref('order').set(newOrder);
-      }
-    });
+   new Sortable(itemList, {
+  animation: 150,
+  delay: 2000,               // 长按2秒（单位毫秒）
+  delayOnTouchOnly: true,    // 仅在触屏设备生效
+  onEnd: function () {
+    const newOrder = [...itemList.children].map(div => div.dataset.name);
+    db.ref('order').set(newOrder);
+  }
+});
 
     // ============ 支持表格弹窗自适应并自动“回显”内容 ============
 
