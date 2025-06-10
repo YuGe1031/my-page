@@ -316,14 +316,44 @@
       .edit-box { min-width: 0; padding: 12px 3vw 10px 3vw;}
     }
     @media (max-width:600px) {
-      .edit-box { padding: 7px 1vw 9px 1vw;}
-      .input-group { padding: 9px 2vw; }
-      .item { padding: 7px 2vw 10px 2vw; }
-      main { border-radius: 0; margin: 0; }
-      header { border-radius: 0 0 18px 18px; }
-      .container { grid-template-columns: 1fr; }
-      #dataTableWrapper { max-width:98vw; }
-    }
+  .edit-box { padding: 7px 1vw 9px 1vw;}
+  .input-group { padding: 9px 2vw; }
+  .item { padding: 7px 2vw 10px 2vw; }
+  main { border-radius: 0; margin: 0; }
+  header { border-radius: 0 0 18px 18px; }
+  .container { grid-template-columns: 1fr; }
+
+  #dataTableWrapper {
+  overflow-x: auto;
+  width: 100%;
+  /* 或者设置最大宽度 */
+  max-width: 100vw;
+}
+  #customTable {
+  min-width: 1000px; /* 按实际内容调整，可以用800px、1000px等 */
+  width: max-content;
+}
+  #customTable td {
+    padding: 4px 10px;
+    text-align: center;
+    max-width: 340px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    box-sizing: border-box;
+  }
+  #customTable input {
+    width: 100%;
+    min-width: 40px;
+    font-size: 15px;
+    border: none;
+    background: transparent;
+    outline: none;
+    text-align: center;
+    padding: 2px 6px;
+    box-sizing: border-box;
+  }
+}
+
     #passwordOverlay {
       position: fixed;
       z-index: 9999;
@@ -600,15 +630,13 @@
       renderAllItems(val.data || {}, val.order || []);
     });
 
-   new Sortable(itemList, {
-  animation: 150,
-  delay: 2000,               // 长按2秒（单位毫秒）
-  delayOnTouchOnly: true,    // 仅在触屏设备生效
-  onEnd: function () {
-    const newOrder = [...itemList.children].map(div => div.dataset.name);
-    db.ref('order').set(newOrder);
-  }
-});
+    new Sortable(itemList, {
+      animation: 150,
+      onEnd: function () {
+        const newOrder = [...itemList.children].map(div => div.dataset.name);
+        db.ref('order').set(newOrder);
+      }
+    });
 
     // ============ 支持表格弹窗自适应并自动“回显”内容 ============
 
@@ -686,4 +714,3 @@
   </script>
 </body>
 </html>
-
