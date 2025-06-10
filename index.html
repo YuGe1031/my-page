@@ -631,12 +631,15 @@
     });
 
     new Sortable(itemList, {
-      animation: 150,
-      onEnd: function () {
-        const newOrder = [...itemList.children].map(div => div.dataset.name);
-        db.ref('order').set(newOrder);
-      }
-    });
+  animation: 150,
+  delay: 2000, // 延迟 2000 毫秒 = 2 秒
+  delayOnTouchOnly: true, // 仅对触屏设备启用延迟
+  touchStartThreshold: 3, // 提高对滑动的容忍度
+  onEnd: function () {
+    const newOrder = [...itemList.children].map(div => div.dataset.name);
+    db.ref('order').set(newOrder);
+  }
+});
 
     // ============ 支持表格弹窗自适应并自动“回显”内容 ============
 
