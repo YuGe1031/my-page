@@ -620,8 +620,11 @@
     });
 
     // 表格弹窗和自动求和（不卡光标）
+    let currentDataTableTitle = ""; // 关键变量：记录正在编辑的数据表原始标题
+
     function openDataTableModal(name = "", tableHtml = "") {
       document.getElementById("dataTableTitleInput").value = name || "";
+      currentDataTableTitle = name || ""; // 记住原始标题
       let dataArr = [];
       if (tableHtml) {
         const tempDiv = document.createElement('div');
@@ -704,9 +707,12 @@
     function closeDataTable(){
       document.getElementById("dataTableModal").classList.remove("active");
     }
+
     function saveDataTable(){
-      const title = document.getElementById("dataTableTitleInput").value.trim();
+      const titleInput = document.getElementById("dataTableTitleInput");
+      let title = titleInput.value.trim();
       if(!title) return alert("标题不能为空！");
+      // 获取表格内容
       const trs = document.querySelectorAll("#customTable tr");
       let arr = [];
       trs.forEach((tr, idx) => {
@@ -724,6 +730,19 @@
         tableHtml += "</tr>";
       });
       tableHtml += "</table>";
+
+      // 新增/重命名/覆盖核心逻辑
+      if (title !== currentDataTableTitle && currentDataTableTitle) {
+        // 重命名，删除旧 key 并更新 order
+        firebase.database().ref('data/' + currentDataTableTitle).remove();
+        firebase.database().ref('order').once("value").then(snap => {
+          let order = snap.val() || [];
+          order = order.map(v => v === currentDataTableTitle ? title : v);
+          firebase.database().ref('order').set(order);
+        });
+      }
+
+      // 正常保存/新建
       firebase.database().ref('data/' + title).set(tableHtml);
       firebase.database().ref('order').once("value").then(snap => {
         let order = snap.val() || [];
@@ -732,8 +751,10 @@
           firebase.database().ref('order').set(order);
         }
       });
+
       closeDataTable();
     }
+
     document.getElementById("dataTableModal").addEventListener("click",function(e){
       if(e.target === this) closeDataTable();
     });
