@@ -18,44 +18,45 @@
       color: #333;
       min-height: 100vh;
     }
-.edit-box h3 {
-  font-size:19px;
-  font-weight:600;
-  margin-bottom:8px;
-  color:#1976d2;
-  text-align: center;
-}
-#customTable td {
-  padding: 4px 10px;
-  text-align: center;
-}
-#customTable input {
-  width: 100%;
-  min-width: 40px;
-  font-size: 15px;
-  box-sizing: border-box;
-  border: none;
-  background: transparent;
-  outline: none;
-  text-align: center;
-  padding: 2px 6px;
-}
-.edit-title-input {
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 18px;
-  font-weight: bold;
-  border: 1.5px solid #b8e0ff;
-  border-radius: 7px;
-  padding: 11px 12px;
-  margin-bottom: 6px;
-  background: #f8fcff;
-  box-shadow: 0 2px 7px #1976d215;
-  outline: none;
-  transition: border 0.16s;
-  text-align: center;  /* 新增这一行 */
-}
     #mainApp { display: none; }
+    #passwordOverlay { display: flex; }
+    .edit-box h3 {
+      font-size:19px;
+      font-weight:600;
+      margin-bottom:8px;
+      color:#1976d2;
+      text-align: center;
+    }
+    #customTable td {
+      padding: 4px 10px;
+      text-align: center;
+    }
+    #customTable input {
+      width: 100%;
+      min-width: 40px;
+      font-size: 15px;
+      box-sizing: border-box;
+      border: none;
+      background: transparent;
+      outline: none;
+      text-align: center;
+      padding: 2px 6px;
+    }
+    .edit-title-input {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 18px;
+      font-weight: bold;
+      border: 1.5px solid #b8e0ff;
+      border-radius: 7px;
+      padding: 11px 12px;
+      margin-bottom: 6px;
+      background: #f8fcff;
+      box-shadow: 0 2px 7px #1976d215;
+      outline: none;
+      transition: border 0.16s;
+      text-align: center;
+    }
     header {
       color: #2075da;
       font-size: 2.1rem;
@@ -182,7 +183,6 @@
       background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
       transform: scale(1.04);
     }
-    /* 编辑弹窗 */
     .edit-modal {
       position: fixed;
       left: 0; top: 0; right: 0; bottom: 0;
@@ -193,8 +193,6 @@
       background: rgba(33,42,66,0.04);
     }
     .edit-modal.active { display: flex; }
-
-    /* 弹窗自适应内容大小、最大95vw/95vh，不出现内部滚动条 */
     .edit-box {
       background: rgba(255,255,255,0.98);
       border-radius: 20px;
@@ -218,20 +216,6 @@
       font-weight:600;
       margin-bottom:8px;
       color:#1976d2
-    }
-    .edit-title-input {
-      width: 100%;
-      box-sizing: border-box;
-      font-size: 18px;
-      font-weight: bold;
-      border: 1.5px solid #b8e0ff;
-      border-radius: 7px;
-      padding: 11px 12px;
-      margin-bottom: 6px;
-      background: #f8fcff;
-      box-shadow: 0 2px 7px #1976d215;
-      outline: none;
-      transition: border 0.16s;
     }
     .edit-title-input:focus { border: 1.5px solid #1a73e8;}
     .rich-content {
@@ -272,8 +256,6 @@
       transition: background 0.13s;
     }
     .edit-actions button.cancel { background: #b8b8b8; color: #fff;}
-
-    /* 表格弹窗自适应，不出现内部滚动条 */
     #dataTableBox {
       width: auto !important;
       height: auto !important;
@@ -282,32 +264,17 @@
       overflow: visible !important;
       min-width: 320px;
     }
-     #dataTableWrapper {
-  overflow-x: auto;
-  max-width: 100vw;
-  background: #fafcff;
-  border: 1.5px solid #b8e0ff;
-  border-radius: 8px;
-  padding: 7px;
-  margin-bottom: 10px;
-}
-
-#customTable {
-  min-width: 900px; /* 适合10-15列内容显示 */
-}
-    #customTable td {
-      padding: 4px 10px;
+    #dataTableWrapper {
+      overflow-x: auto;
+      max-width: 100vw;
+      background: #fafcff;
+      border: 1.5px solid #b8e0ff;
+      border-radius: 8px;
+      padding: 7px;
+      margin-bottom: 10px;
     }
-    #customTable input {
-      width: 100%;
-      min-width: 40px;
-      font-size: 15px;
-      box-sizing: border-box;
-      border: none;
-      background: transparent;
-      outline: none;
-      text-align: center;
-      padding: 2px 6px;
+    #customTable {
+      min-width: 900px;
     }
     @media (max-width:900px) {
       main { padding: 4vw 2vw; }
@@ -316,44 +283,41 @@
       .edit-box { min-width: 0; padding: 12px 3vw 10px 3vw;}
     }
     @media (max-width:600px) {
-  .edit-box { padding: 7px 1vw 9px 1vw;}
-  .input-group { padding: 9px 2vw; }
-  .item { padding: 7px 2vw 10px 2vw; }
-  main { border-radius: 0; margin: 0; }
-  header { border-radius: 0 0 18px 18px; }
-  .container { grid-template-columns: 1fr; }
-
-  #dataTableWrapper {
-  overflow-x: auto;
-  width: 100%;
-  /* 或者设置最大宽度 */
-  max-width: 100vw;
-}
-  #customTable {
-  min-width: 1000px; /* 按实际内容调整，可以用800px、1000px等 */
-  width: max-content;
-}
-  #customTable td {
-    padding: 4px 10px;
-    text-align: center;
-    max-width: 340px;
-    white-space: pre-wrap;
-    word-break: break-all;
-    box-sizing: border-box;
-  }
-  #customTable input {
-    width: 100%;
-    min-width: 40px;
-    font-size: 15px;
-    border: none;
-    background: transparent;
-    outline: none;
-    text-align: center;
-    padding: 2px 6px;
-    box-sizing: border-box;
-  }
-}
-
+      .edit-box { padding: 7px 1vw 9px 1vw;}
+      .input-group { padding: 9px 2vw; }
+      .item { padding: 7px 2vw 10px 2vw; }
+      main { border-radius: 0; margin: 0; }
+      header { border-radius: 0 0 18px 18px; }
+      .container { grid-template-columns: 1fr; }
+      #dataTableWrapper {
+        overflow-x: auto;
+        width: 100%;
+        max-width: 100vw;
+      }
+      #customTable {
+        min-width: 1000px;
+        width: max-content;
+      }
+      #customTable td {
+        padding: 4px 10px;
+        text-align: center;
+        max-width: 340px;
+        white-space: pre-wrap;
+        word-break: break-all;
+        box-sizing: border-box;
+      }
+      #customTable input {
+        width: 100%;
+        min-width: 40px;
+        font-size: 15px;
+        border: none;
+        background: transparent;
+        outline: none;
+        text-align: center;
+        padding: 2px 6px;
+        box-sizing: border-box;
+      }
+    }
     #passwordOverlay {
       position: fixed;
       z-index: 9999;
@@ -423,14 +387,13 @@
   </style>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
   <div id="passwordOverlay">
     <h3>请输入访问密码</h3>
     <input type="password" id="accessPassword" placeholder="输入密码" />
-    <button onclick="checkPassword()">进入</button>
+    <button id="enterBtn">进入</button>
     <p id="errorHint" style="display: none;">密码错误，请重试</p>
   </div>
   <div id="mainApp">
@@ -446,7 +409,6 @@
       </div>
       <div id="itemList" class="container"></div>
     </main>
-    <!-- 编辑弹窗 -->
     <div id="editModal" class="edit-modal" tabindex="-1">
       <div class="edit-box" id="editBox">
         <h3>编辑选项卡</h3>
@@ -458,15 +420,12 @@
         </div>
       </div>
     </div>
-    <!-- 表格弹窗 -->
     <div id="dataTableModal" class="edit-modal" tabindex="-1">
       <div class="edit-box" id="dataTableBox">
         <h3>添加数据卡片</h3>
         <input class="edit-title-input" id="dataTableTitleInput" placeholder="请输入数据卡片标题" />
         <div id="dataTableWrapper">
-          <table id="customTable" border="1" style="border-collapse:collapse;">
-            <!-- JS插入表格内容 -->
-          </table>
+          <table id="customTable" border="1" style="border-collapse:collapse;"></table>
         </div>
         <div class="edit-actions">
           <button onclick="saveDataTable()">保存</button>
@@ -489,7 +448,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // 密码逻辑
+    // 密码界面
     const CORRECT_PASSWORD = "qwe96300";
     function checkPassword() {
       const input = document.getElementById("accessPassword").value;
@@ -500,17 +459,26 @@
         document.getElementById("errorHint").style.display = "block";
       }
     }
+    document.getElementById("enterBtn").onclick = checkPassword;
     document.getElementById("accessPassword").addEventListener("keydown", function(e){
       if(e.key === "Enter") checkPassword();
     });
 
-    // 选项卡功能
+    // 数据缓存和渲染
+    let allData = {};
+    let allOrder = [];
     const itemList = document.getElementById("itemList");
+
     function renderAllItems(data, order) {
       itemList.innerHTML = "";
       (order || Object.keys(data)).forEach(name => {
         if (data[name] !== undefined) createItemElement(name, data[name]);
       });
+    }
+    function highlightKeyword(str, keyword) {
+      if (!keyword) return str;
+      const safe = s => s.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+      return str.replace(new RegExp(safe(keyword), 'gi'), m => `<span style="background:#ffe082;color:#d32f2f;border-radius:4px;padding:0 2px;">${m}</span>`);
     }
     function createItemElement(itemName, content = "") {
       const container = document.createElement("div");
@@ -522,7 +490,12 @@
       });
       const title = document.createElement("div");
       title.className = "title";
-      title.textContent = itemName;
+      const keyword = document.getElementById("searchBox")?.value.trim();
+      if (keyword) {
+        title.innerHTML = highlightKeyword(itemName, keyword);
+      } else {
+        title.textContent = itemName;
+      }
       const actions = document.createElement("div");
       actions.className = "actions";
       actions.innerHTML = `
@@ -551,23 +524,19 @@
       e.stopPropagation();
       if (!confirm("确认删除？")) return;
       db.ref('data/' + name).remove();
-         db.ref('order').once("value").then(snap => {
+      db.ref('order').once("value").then(snap => {
         const order = (snap.val() || []).filter(n => n !== name);
         db.ref('order').set(order);
       });
     }
 
-    // ============ 优化后弹窗逻辑 ============
-
+    // 编辑弹窗逻辑
     let currentEditName = "";
-
     function openEditor(name) {
       db.ref('data/' + name).once("value").then(snapshot => {
         const content = snapshot.val() || "";
         currentEditName = name;
-
-        // 如果是表格内容，弹表格弹窗并自动回显内容
-        if (content.startsWith("<table")) {
+        if (typeof content === "string" && content.startsWith("<table")) {
           openDataTableModal(name, content);
         } else {
           document.getElementById("editTitleInput").value = name;
@@ -579,7 +548,6 @@
         }
       });
     }
-
     function closeEdit() {
       document.getElementById("editModal").classList.remove("active");
     }
@@ -608,87 +576,145 @@
       if(e.target === this) closeEdit();
     });
 
+    // 搜索
     function searchItems() {
       const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
-            db.ref('data').once("value").then(snap => {
-        const data = snap.val() || {};
-        db.ref('order').once("value").then(orderSnap => {
-          const order = orderSnap.val() || Object.keys(data);
-          const filtered = {};
-          for (let k of order) {
-            if (k.toLowerCase().includes(keyword) || (data[k] && data[k].toLowerCase().includes(keyword))) {
-              filtered[k] = data[k];
-            }
-          }
-          renderAllItems(filtered, Object.keys(filtered));
-        });
-      });
+      if (!keyword) {
+        renderAllItems(allData, allOrder);
+        return;
+      }
+      const filtered = {};
+      for (let k of allOrder) {
+        const content = (allData[k] || "");
+        if (
+          k.toLowerCase().includes(keyword) ||
+          (typeof content === "string" && content.toLowerCase().includes(keyword))
+        ) {
+          filtered[k] = content;
+        }
+      }
+      renderAllItems(filtered, Object.keys(filtered));
+      if (Object.keys(filtered).length === 0) {
+        itemList.innerHTML = `<div style="grid-column: 1/-1;text-align:center;font-size:1.15em;padding:48px 0;color:#1976d2a0;">
+          未找到相关内容，请尝试其他关键词
+        </div>`;
+      }
     }
 
     db.ref().on("value", snapshot => {
       const val = snapshot.val() || {};
-      renderAllItems(val.data || {}, val.order || []);
+      allData = val.data || {};
+      allOrder = val.order || Object.keys(allData);
+      renderAllItems(allData, allOrder);
     });
 
     new Sortable(itemList, {
-  animation: 150,
-  delay: 2000, // 延迟 2000 毫秒 = 2 秒
-  delayOnTouchOnly: true, // 仅对触屏设备启用延迟
-  touchStartThreshold: 3, // 提高对滑动的容忍度
-  onEnd: function () {
-    const newOrder = [...itemList.children].map(div => div.dataset.name);
-    db.ref('order').set(newOrder);
-  }
-});
+      animation: 150,
+      delay: 2000,
+      delayOnTouchOnly: true,
+      touchStartThreshold: 3,
+      onEnd: function () {
+        const newOrder = [...itemList.children].map(div => div.dataset.name);
+        db.ref('order').set(newOrder);
+      }
+    });
 
-    // ============ 支持表格弹窗自适应并自动“回显”内容 ============
-
+    // 表格弹窗和自动求和（不卡光标）
     function openDataTableModal(name = "", tableHtml = "") {
       document.getElementById("dataTableTitleInput").value = name || "";
-      let html = "";
-
+      let dataArr = [];
       if (tableHtml) {
-        // 回显: 解析HTML表格转回input
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = tableHtml;
         const rows = tempDiv.querySelectorAll("tr");
         rows.forEach(tr => {
-          html += "<tr>";
+          let rowArr = [];
           tr.querySelectorAll("td").forEach(td => {
-            html += `<td><input type="text" value="${(td.textContent || '').replace(/"/g, '&quot;')}" /></td>`;
+            rowArr.push((td.textContent || '').replace(/"/g, '&quot;'));
           });
-          html += "</tr>";
+          dataArr.push(rowArr);
         });
       } else {
-        // 新建: 默认10x15空表格
         for(let i=0;i<10;i++){
-          html += "<tr>";
-          for(let j=0;j<15;j++){
-            html += `<td><input type="text" /></td>`;
-          }
-          html += "</tr>";
+          let rowArr = [];
+          for(let j=0;j<15;j++) rowArr.push('');
+          dataArr.push(rowArr);
         }
       }
-      document.getElementById("customTable").innerHTML = html;
+      buildTable(dataArr);
       document.getElementById("dataTableModal").classList.add("active");
     }
+    function buildTable(arr) {
+      const colCount = arr[0]?.length || 0;
+      let html = "";
+      for (let i=0; i<arr.length; i++) {
+        html += "<tr>";
+        for (let j=0; j<colCount; j++) {
+          html += `<td><input type="text" value="${arr[i][j].replace(/"/g,'&quot;')}" oninput="updateTableSumRow()" /></td>`;
+        }
+        html += "</tr>";
+      }
+      document.getElementById("customTable").innerHTML = html;
+      updateTableSumRow();
+    }
+    window.updateTableSumRow = function() {
+      const trs = document.querySelectorAll("#customTable tr");
+      let arr = [];
+      let colCount = 0;
+      trs.forEach(tr => {
+        let row = [];
+        tr.querySelectorAll('td input').forEach(inp => row.push(inp.value));
+        if (row.length > colCount) colCount = row.length;
+        arr.push(row);
+      });
+      arr = arr.map(row => {
+        while(row.length < colCount) row.push("");
+        return row;
+      });
+      // 计算各列和
+      let sumArr = [];
+      for (let j=0;j<colCount;j++) {
+        let sum = 0, isNumberCol = false;
+        for (let i=0;i<arr.length;i++) {
+          let val = arr[i][j];
+          let num = parseFloat(val);
+          if (!isNaN(num) && val !== "") {
+            sum += num;
+            isNumberCol = true;
+          }
+        }
+        sumArr[j] = isNumberCol ? sum : "";
+      }
+      // 求和行渲染
+      let sumTr = document.getElementById("sumRow");
+      if (!sumTr) {
+        sumTr = document.createElement("tr");
+        sumTr.id = "sumRow";
+        sumTr.style.background = "#e3f2fd";
+        sumTr.style.fontWeight = "bold";
+        document.getElementById("customTable").appendChild(sumTr);
+      }
+      let sumHtml = "";
+      for (let j=0;j<colCount;j++) {
+        sumHtml += `<td>${sumArr[j]!=="" ? sumArr[j] : ""}</td>`;
+      }
+      sumTr.innerHTML = sumHtml;
+    };
 
     function closeDataTable(){
       document.getElementById("dataTableModal").classList.remove("active");
     }
-
     function saveDataTable(){
       const title = document.getElementById("dataTableTitleInput").value.trim();
       if(!title) return alert("标题不能为空！");
-      // 读取表格内容为二维数组
-      const rows = document.querySelectorAll("#customTable tr");
+      const trs = document.querySelectorAll("#customTable tr");
       let arr = [];
-      rows.forEach(tr=>{
+      trs.forEach((tr, idx) => {
+        if (tr.id === "sumRow") return;
         let row = [];
         tr.querySelectorAll('td input').forEach(inp=>row.push(inp.value));
         arr.push(row);
       });
-      // 转HTML表格字符串保存
       let tableHtml = "<table border='1' style='border-collapse:collapse'>";
       arr.forEach(row=>{
         tableHtml += "<tr>";
@@ -698,7 +724,6 @@
         tableHtml += "</tr>";
       });
       tableHtml += "</table>";
-
       firebase.database().ref('data/' + title).set(tableHtml);
       firebase.database().ref('order').once("value").then(snap => {
         let order = snap.val() || [];
@@ -709,11 +734,9 @@
       });
       closeDataTable();
     }
-
     document.getElementById("dataTableModal").addEventListener("click",function(e){
       if(e.target === this) closeDataTable();
     });
-
   </script>
 </body>
 </html>
