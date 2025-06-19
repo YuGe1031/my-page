@@ -17,6 +17,7 @@
       background-size: cover;
       color: #333;
       min-height: 100vh;
+      overflow-x: hidden;
     }
     #mainApp { display: none; }
     #passwordOverlay { display: flex; }
@@ -57,23 +58,23 @@
       text-align: center;
     }
     .edit-category-select, #newCategory, #dataTableCategoryInput {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 16px;
-  border-radius: 9px;
-  border: 1.5px solid #1976d2;
-  background: #f8fcff;
-  box-shadow: 0 2px 9px #1976d222;
-  outline: none;
-  color: #1976d2;
-  min-width: 110px;
-  margin-bottom: 8px;
-  transition: border 0.15s, box-shadow 0.18s;
-}
-.edit-category-select:focus, #newCategory:focus, #dataTableCategoryInput:focus {
-  border: 1.5px solid #1de9b6;
-  box-shadow: 0 2px 14px #1de9b644;
-}
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px 16px;
+      border-radius: 9px;
+      border: 1.5px solid #1976d2;
+      background: #f8fcff;
+      box-shadow: 0 2px 9px #1976d222;
+      outline: none;
+      color: #1976d2;
+      min-width: 110px;
+      margin-bottom: 8px;
+      transition: border 0.15s, box-shadow 0.18s;
+    }
+    .edit-category-select:focus, #newCategory:focus, #dataTableCategoryInput:focus {
+      border: 1.5px solid #1de9b6;
+      box-shadow: 0 2px 14px #1de9b644;
+    }
     main {
       margin: 40px auto;
       max-width: 1200px;
@@ -118,6 +119,7 @@
       transition: background 0.14s, color 0.12s;
       width: 100%;
       text-align: center;
+      user-select: none;
     }
     .filter-btn.active, .filter-btn:hover {
       background: linear-gradient(90deg,#1a73e8 80%, #1de9b6 100%);
@@ -136,6 +138,7 @@
       cursor: pointer;
       width: 100%;
       transition: background 0.16s;
+      user-select: none;
     }
     .cat-mgr-btn:hover {
       background: linear-gradient(90deg,#1976d2 50%,#26c6da 100%);
@@ -165,6 +168,8 @@
       padding: 13px 15px;
       background: rgba(255,255,255,0.9);
       transition: border .16s;
+      outline: none;
+      min-width: 180px;
     }
     .input-group input[type="text"]:focus {
       border: 1.5px solid #1a73e8;
@@ -182,49 +187,32 @@
       transition: background 0.13s, transform 0.13s;
       background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
       margin-right: 0;
+      user-select: none;
     }
     .input-group select {
-  border-radius: 13px;
-  font-size: 17px;
-  font-weight: bold;
-  padding: 13px 22px;
-  color: #fff;
-  border: none;
-  background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
-  box-shadow: 0 2px 6px #00eaff26;
-  margin-right: 0;
-  min-width: 120px;
-  height: 48px;           /* 让select和按钮高度一致 */
-  cursor: pointer;
-  outline: none;
-  appearance: none;       /* 移除原生样式（火狐可能用-moz-appearance:none） */
-  transition: background 0.13s, transform 0.13s;
-  display: inline-block;
-  line-height: 1;         /* 让文字居中 */
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.input-group select:focus,
-.input-group select:hover {
-  background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
-}
-
-.input-group {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* 隐藏默认下拉箭头，自定义箭头可选 */
-.input-group select::-ms-expand { display: none; }
-.input-group select {
-  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="20" width="20" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 18px 18px;
-  padding-right: 38px;
-}
+      border-radius: 13px;
+      font-size: 17px;
+      font-weight: bold;
+      padding: 13px 22px;
+      color: #fff;
+      border: none;
+      background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
+      box-shadow: 0 2px 6px #00eaff26;
+      margin-right: 0;
+      min-width: 120px;
+      height: 48px;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      display: inline-block;
+      line-height: 1;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .input-group select:focus,
+    .input-group select:hover {
+      background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
+    }
     .input-group button:hover {
       background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
       transform: translateY(-1px) scale(1.04);
@@ -262,6 +250,7 @@
       transition: box-shadow 0.14s, transform 0.13s, background 0.18s;
       cursor: pointer;
       position: relative;
+      user-select: none;
     }
     .item:hover {
       box-shadow: 0 8px 28px #2196f330;
@@ -274,7 +263,8 @@
       margin-bottom: 8px;
       text-align: center;
       color: #1565c0;
-      word-break: break-all;
+      word-break: break-word;
+      user-select: text;
     }
     .category-badge {
       display: inline-block;
@@ -289,6 +279,7 @@
       letter-spacing: 1px;
       font-weight: 500;
       box-shadow: 0 2px 10px #1de9b627;
+      user-select: none;
     }
     .actions {
       display: flex;
@@ -306,6 +297,7 @@
       box-shadow: 0 2px 6px #00eaff26;
       cursor: pointer;
       transition: background 0.13s, transform 0.13s;
+      user-select: none;
     }
     .actions button:hover {
       background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
@@ -363,6 +355,8 @@
       overflow:auto;
       resize: none;
       margin-top: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
     .rich-content:focus { border: 1.5px solid #1a73e8; background: #f8fcff;}
     .rich-content:empty:before { content: "请输入内容..."; color: #999;}
@@ -381,6 +375,7 @@
       border: none;
       cursor: pointer;
       transition: background 0.13s;
+      user-select: none;
     }
     .edit-actions button.cancel { background: #b8b8b8; color: #fff;}
     #dataTableBox {
@@ -402,6 +397,27 @@
     }
     #customTable {
       min-width: 900px;
+      border-collapse: collapse;
+    }
+    #customTable td {
+      padding: 6px 12px;
+      border: 1px solid #b8e0ff;
+      text-align: center;
+      max-width: 340px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-sizing: border-box;
+    }
+    #customTable input {
+      width: 100%;
+      min-width: 40px;
+      font-size: 15px;
+      border: none;
+      background: transparent;
+      outline: none;
+      text-align: center;
+      padding: 2px 6px;
+      box-sizing: border-box;
     }
     @media (max-width:900px) {
       main { padding: 4vw 2vw; }
@@ -435,7 +451,7 @@
         text-align: center;
         max-width: 340px;
         white-space: pre-wrap;
-        word-break: break-all;
+        word-break: break-word;
         box-sizing: border-box;
       }
       #customTable input {
@@ -475,6 +491,10 @@
       color: #e3f2fd;
       text-shadow: 0 4px 16px #1565c0cc, 0 2px 8px #fff6;
       margin-bottom: 18px;
+      user-select: none;
+    }
+    #passwordOverlay label {
+      display: none; /* 用于无障碍屏幕阅读器 */
     }
     #passwordOverlay input, #passwordOverlay button {
       box-shadow: 0 4px 32px rgba(33,150,243,0.15);
@@ -484,6 +504,7 @@
       font-size: 18px;
       margin-bottom: 12px;
       margin-top: 0;
+      user-select: text;
     }
     #passwordOverlay input {
       padding: 10px 16px;
@@ -504,6 +525,7 @@
       width: 90vw;
       max-width: 260px;
       min-width: 120px;
+      user-select: none;
     }
     #passwordOverlay button:hover {
       background: linear-gradient(90deg, #1976d2 40%, #26c6da 100%);
@@ -515,242 +537,236 @@
       color: #f44336;
       font-weight: bold;
       text-shadow: 0 2px 8px #fff6;
+      user-select: none;
     }
-.cat-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border-radius: 8px;
-  transition: background 0.16s;
-  margin-bottom: 6px;
-  cursor: pointer;
-}
-.cat-item:hover {
-  background: #e3f2fd80;
-}
-.cat-name {
-  flex: 1 1 auto;
-  word-break: break-all;
-  font-size: 16px;
-  color: #1976d2;
-  font-weight: 500;
-}
-.cat-count {
-  font-size: 13px;
-  color: #666;
-  background: #e0f7fa;
-  border-radius: 10px;
-  padding: 2px 8px;
-  margin-right: 4px;
-}
-.cat-btn {
-  background: none;
-  border: none;
-  font-size: 17px;
-  color: #1976d2;
-  padding: 3px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.13s;
-  margin-left: 2px;
-}
-.cat-btn:hover {
-  background: #e3f2fd;
-}
-.cat-btn.del {
-  color: #e53935;
-}
-.cat-btn.del:hover {
-  background: #ffcdd2;
-}
-  /* header 样式增强（新加的） */
-  header {
-  position: relative;
-  left: 50%;
-  width: 100vw;
-  min-width: 100vw;
-  transform: translateX(-50%);
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 6px 24px #1976d215;
-  border-radius: 0 0 28px 28px;
-  padding: 34px 0 32px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  box-sizing: border-box;
-}
-body, html { overflow-x: hidden; }
-header span {
-  color: #1976d2;
-  font-size: 2.4rem;
-  font-weight: bold;
-  text-shadow: 0 2px 8px #fff, 0 8px 20px #b0e0ff66;
-  letter-spacing: 2px;
-}
-.cool-title {
-  position: relative;
-  display: inline-block;
-  padding: 8px 36px;
-  font-size: 2.7rem;
-  font-weight: 900;
-  letter-spacing: 3px;
-  color: #fff;
-  background: rgba(25, 118, 210, 0.65); /* 半透明底色，增强对比 */
-  border-radius: 18px;
-  box-shadow:
-    0 0 24px rgba(29, 233, 182, 0.7),
-    0 0 48px rgba(33, 150, 243, 0.8);
-  cursor: pointer;
-  user-select: none;
-  transition: transform 0.22s cubic-bezier(.32,1.56,.42,.87);
-  overflow: hidden;
-
-  /* 文字渐变发光 */
-  background-image: linear-gradient(90deg,#1de9b6 0%, #2196f3 50%, #ffea00 80%, #ff48fb 100%);
-  background-size: 200% 200%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  animation: cool-title-gradient 6s ease-in-out infinite, cool-title-glow 2.2s linear infinite;
-
-  /* 之前的多层发光效果 */
-  text-shadow:
-    0 0 16px #22e3ffcc,
-    0 0 28px #1976d299,
-    0 2px 12px #fff;
-  filter: brightness(1.25) saturate(1.23);
-}
-.cool-title:hover {
-  transform: scale(1.07) rotate(-1deg);
-  filter: brightness(1.35) saturate(1.6);
-  animation-duration: 1.2s;
-  background-image: linear-gradient(90deg, #26c6da 0%, #1976d2 50%, #ffca28 80%, #ea80fc 100%);
-  text-shadow:
-    0 0 30px #1de9b6cc,
-    0 0 60px #2196f3bb,
-    0 2px 24px #fff;
-}
-@keyframes cool-title-gradient {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes cool-title-glow {
-  0%   { text-shadow:0 0 16px #22e3ffcc, 0 0 28px #1976d299, 0 2px 12px #fff; }
-  30%  { text-shadow:0 0 30px #00ffea99, 0 0 60px #2196f355, 0 2px 24px #fff; }
-  60%  { text-shadow:0 0 45px #ffd600bb, 0 0 24px #ff48fb99, 0 2px 16px #fff; }
-  80%  { text-shadow:0 0 30px #1de9b6cc, 0 0 64px #1de9b6cc, 0 2px 28px #fff; }
-  100% { text-shadow:0 0 16px #22e3ffcc, 0 0 28px #1976d299, 0 2px 12px #fff; }
-}
-
-</style>
+    .cat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      transition: background 0.16s;
+      margin-bottom: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .cat-item:hover {
+      background: #e3f2fd80;
+    }
+    .cat-name {
+      flex: 1 1 auto;
+      word-break: break-word;
+      font-size: 16px;
+      color: #1976d2;
+      font-weight: 500;
+      user-select: text;
+    }
+    .cat-count {
+      font-size: 13px;
+      color: #666;
+      background: #e0f7fa;
+      border-radius: 10px;
+      padding: 2px 8px;
+      margin-right: 4px;
+      user-select: none;
+    }
+    .cat-btn {
+      background: none;
+      border: none;
+      font-size: 17px;
+      color: #1976d2;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.13s;
+      user-select: none;
+      line-height: 1;
+    }
+    .cat-btn:hover {
+      background: #e3f2fd;
+    }
+    .cat-btn.del {
+      color: #e53935;
+    }
+    .cat-btn.del:hover {
+      background: #ffcdd2;
+    }
+    /* header 样式增强 */
+    header {
+      position: relative;
+      left: 50%;
+      width: 100vw;
+      min-width: 100vw;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.78);
+      box-shadow: 0 6px 24px #1976d215;
+      border-radius: 0 0 28px 28px;
+      padding: 34px 0 32px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    header span {
+      color: #1976d2;
+      font-size: 2.4rem;
+      font-weight: bold;
+      text-shadow: 0 2px 8px #fff, 0 8px 20px #b0e0ff66;
+      letter-spacing: 2px;
+    }
+    .cool-title {
+      position: relative;
+      display: inline-block;
+      padding: 8px 36px;
+      font-size: 2.7rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #fff;
+      background: rgba(25, 118, 210, 0.65);
+      border-radius: 18px;
+      box-shadow:
+        0 0 24px rgba(29, 233, 182, 0.7),
+        0 0 48px rgba(33, 150, 243, 0.8);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.22s cubic-bezier(.32,1.56,.42,.87);
+      overflow: hidden;
+      background-image: linear-gradient(90deg,#1de9b6 0%, #2196f3 50%, #ffea00 80%, #ff48fb 100%);
+      background-size: 200% 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: cool-title-gradient 6s ease-in-out infinite, cool-title-glow 2.2s linear infinite;
+      text-shadow:
+        0 0 16px #22e3ffcc,
+        0 0 28px #1976d299,
+        0 2px 12px #fff;
+      filter: brightness(1.25) saturate(1.23);
+    }
+    .cool-title:hover {
+      transform: scale(1.07) rotate(-1deg);
+      filter: brightness(1.35) saturate(1.6);
+      animation-duration: 1.2s;
+      background-image: linear-gradient(90deg, #26c6da 0%, #1976d2 50%, #ffca28 80%, #ea80fc 100%);
+      text-shadow:
+        0 0 30px #1de9b6cc,
+        0 0 60px #2196f3bb,
+        0 2px 24px #fff;
+    }
+    @keyframes cool-title-gradient {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes cool-title-glow {
+      0%   { text-shadow:0 0 16px #22e3ffcc, 0 0 28px #1976d299, 0 2px 12px #fff; }
+      30%  { text-shadow:0 0 30px #00ffea99, 0 0 60px #2196f355, 0 2px 24px #fff; }
+      60%  { text-shadow:0 0 45px #ffd600bb, 0 0 24px #ff48fb99, 0 2px 16px #fff; }
+      80%  { text-shadow:0 0 30px #1de9b6cc, 0 0 64px #1de9b6cc, 0 2px 28px #fff; }
+      100% { text-shadow:0 0 16px #22e3ffcc, 0 0 28px #1976d299, 0 2px 12px #fff; }
+    }
+  </style>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
-  <div id="passwordOverlay">
-    <h3>请输入访问密码</h3>
-    <input type="password" id="accessPassword" placeholder="输入密码" />
-    <button id="enterBtn">进入</button>
-    <p id="errorHint" style="display: none;">密码错误，请重试</p>
+  <div id="passwordOverlay" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
+    <h3 id="passwordTitle">请输入访问密码</h3>
+    <label for="accessPassword" class="sr-only">访问密码</label>
+    <input type="password" id="accessPassword" placeholder="输入密码" autocomplete="current-password" />
+    <button id="enterBtn" type="button">进入</button>
+    <p id="errorHint" style="display: none;" role="alert" aria-live="assertive">密码错误，请重试</p>
   </div>
-  <div id="mainApp">
+
+  <div id="mainApp" tabindex="-1" aria-hidden="true">
     <header>
       <span class="cool-title">浅水湾刘德伐</span>
     </header>
     <main>
       <div class="main-flex">
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="分类筛选">
           <div id="categoryFilterGroup" class="filter-group"></div>
           <button type="button" id="openCategoryManagerBtn" class="cat-mgr-btn">分类管理</button>
         </aside>
-        <section class="main-content">
+        <section class="main-content" aria-live="polite">
           <div class="input-group">
-            <input type="text" id="newItem" placeholder="输入选项名称" />
+            <input type="text" id="newItem" placeholder="输入选项名称" aria-label="新增选项名称" />
             <div style="display:flex;align-items:center;">
-              <select id="newCategory"></select>
-              <input type="text" id="newCategory_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" />
+              <select id="newCategory" aria-label="选择分类"></select>
+              <input type="text" id="newCategory_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" aria-label="自定义分类" />
             </div>
-            <button onclick="addItem()">添加选项</button>
-            <button onclick="openDataTableModal()">添加数据</button>
-            <input type="text" id="searchBox" placeholder="搜索选项或内容" oninput="searchItems()" />
-            <select id="categoryFilter" onchange="filterByCategory()" style="display:none;">
+            <button type="button" onclick="addItem()">添加选项</button>
+            <button type="button" onclick="openDataTableModal()">添加数据</button>
+            <input type="text" id="searchBox" placeholder="搜索选项或内容" aria-label="搜索" oninput="searchItems()" />
+            <select id="categoryFilter" onchange="filterByCategory()" style="display:none;" aria-hidden="true">
               <option value="">全部分类</option>
             </select>
           </div>
-          <div id="itemList" class="container"></div>
+          <div id="itemList" class="container" role="list"></div>
         </section>
       </div>
     </main>
-    <div id="editModal" class="edit-modal" tabindex="-1">
+
+    <!-- 编辑弹窗 -->
+    <div id="editModal" class="edit-modal" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="editTitleLabel">
       <div class="edit-box" id="editBox">
-        <h3>编辑选项卡</h3>
-        <input class="edit-title-input" id="editTitleInput" placeholder="请输入选项卡标题" />
+        <h3 id="editTitleLabel">编辑选项卡</h3>
+        <input class="edit-title-input" id="editTitleInput" placeholder="请输入选项卡标题" aria-label="编辑标题" />
         <div style="display:flex;align-items:center;">
-          <select class="edit-category-select" id="editCategoryInput"></select>
-          <input type="text" id="editCategoryInput_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" />
+          <select class="edit-category-select" id="editCategoryInput" aria-label="编辑分类"></select>
+          <input type="text" id="editCategoryInput_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" aria-label="编辑自定义分类" />
         </div>
-        <div class="rich-content" id="editContent" contenteditable="true"></div>
+        <div class="rich-content" id="editContent" contenteditable="true" aria-label="编辑内容"></div>
         <div class="edit-actions">
-          <button onclick="saveEdit()">保存</button>
-          <button class="cancel" onclick="closeEdit()">取消</button>
+          <button type="button" onclick="saveEdit()">保存</button>
+          <button type="button" class="cancel" onclick="closeEdit()">取消</button>
         </div>
       </div>
     </div>
-    <div id="dataTableModal" class="edit-modal" tabindex="-1">
+
+    <!-- 数据表弹窗 -->
+    <div id="dataTableModal" class="edit-modal" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="dataTableTitleLabel">
       <div class="edit-box" id="dataTableBox">
-        <h3>添加数据卡片</h3>
-        <input class="edit-title-input" id="dataTableTitleInput" placeholder="请输入数据卡片标题" />
+        <h3 id="dataTableTitleLabel">添加数据卡片</h3>
+        <input class="edit-title-input" id="dataTableTitleInput" placeholder="请输入数据卡片标题" aria-label="数据卡片标题" />
         <div style="display:flex;align-items:center;">
-          <select class="edit-category-select" id="dataTableCategoryInput"></select>
-          <input type="text" id="dataTableCategoryInput_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" />
+          <select class="edit-category-select" id="dataTableCategoryInput" aria-label="数据卡片分类"></select>
+          <input type="text" id="dataTableCategoryInput_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" aria-label="数据卡片自定义分类" />
         </div>
         <div id="dataTableWrapper">
           <table id="customTable" border="1" style="border-collapse:collapse;"></table>
         </div>
         <div class="edit-actions">
-          <button onclick="saveDataTable()">保存</button>
-          <button class="cancel" onclick="closeDataTable()">取消</button>
+          <button type="button" onclick="saveDataTable()">保存</button>
+          <button type="button" class="cancel" onclick="closeDataTable()">取消</button>
         </div>
       </div>
     </div>
+
     <!-- 分类管理弹窗 -->
-    <div id="categoryManagerModal" class="edit-modal" tabindex="-1">
+    <div id="categoryManagerModal" class="edit-modal" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="categoryManagerLabel">
       <div class="edit-box" style="min-width:260px;">
-        <h3>分类管理</h3>
-        <ul id="categoryList" style="list-style:none;padding:0;margin-bottom:16px;">
-        </ul>
+        <h3 id="categoryManagerLabel">分类管理</h3>
+        <ul id="categoryList" style="list-style:none;padding:0;margin-bottom:16px;"></ul>
         <div style="display:flex;gap:8px;">
-          <input type="text" id="newCategoryInput" placeholder="新分类名" style="flex:1 1 auto;padding:9px 12px;font-size:15px;border-radius:7px;border:1.5px solid #b8e0ff;background:#f8fcff;outline:none;" maxlength="8">
-          <button id="addCategoryBtn" style="padding:8px 16px;border-radius:7px;background:linear-gradient(90deg,#1de9b6 30%,#1976d2 100%);color:#fff;border:none;font-size:15px;font-weight:bold;">新增</button>
+          <input type="text" id="newCategoryInput" placeholder="新分类名" style="flex:1 1 auto;padding:9px 12px;font-size:15px;border-radius:7px;border:1.5px solid #b8e0ff;background:#f8fcff;outline:none;" maxlength="8" aria-label="新增分类名称" />
+          <button id="addCategoryBtn" type="button" style="padding:8px 16px;border-radius:7px;background:linear-gradient(90deg,#1de9b6 30%,#1976d2 100%);color:#fff;font-size:15px;font-weight:bold;">新增</button>
         </div>
         <div class="edit-actions" style="margin-top:18px;">
-          <button onclick="closeCategoryManager()">关闭</button>
+          <button type="button" onclick="closeCategoryManager()">关闭</button>
         </div>
       </div>
     </div>
   </div>
-  <script>
+
+<script>
 document.addEventListener("DOMContentLoaded", function() {
 
-  // 分类管理功能：持久化到localStorage
-  function loadCategoryList(){
-    try {
-      let local = JSON.parse(localStorage.getItem("CATEGORY_LIST"));
-      if(Array.isArray(local) && local.length) return local;
-    } catch{}
-    return ["科技资讯","数据统计","成员信息","其他"];
-  }
-  function saveCategoryList(){
-    localStorage.setItem("CATEGORY_LIST", JSON.stringify(CATEGORY_LIST));
-  }
-  let CATEGORY_LIST = loadCategoryList();
+  const CORRECT_PASSWORD = "qwe96300";
 
-  // firebase配置
   const firebaseConfig = {
     apiKey: "AIzaSyAZFBRN2YfUdSSiCsIy63iMUqwdOqUZO1k",
     authDomain: "yuge1031-45725.firebaseapp.com",
@@ -763,43 +779,234 @@ document.addEventListener("DOMContentLoaded", function() {
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // 密码界面
-  const CORRECT_PASSWORD = "qwe96300";
-  function checkPassword() {
-    const input = document.getElementById("accessPassword").value;
-    if (input === CORRECT_PASSWORD) {
-      document.getElementById("passwordOverlay").style.display = "none";
-      document.getElementById("mainApp").style.display = "block";
-    } else {
-      document.getElementById("errorHint").style.display = "block";
-    }
-  }
-  document.getElementById("enterBtn").onclick = checkPassword;
+  const passwordOverlay = document.getElementById("passwordOverlay");
+  const mainApp = document.getElementById("mainApp");
+  const errorHint = document.getElementById("errorHint");
+  const passwordInput = document.getElementById("accessPassword");
+  const enterBtn = document.getElementById("enterBtn");
+  const itemList = document.getElementById("itemList");
 
-document.getElementById("accessPassword").addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    checkPassword();
-  }
-});
-
-window.closeEdit = closeEdit;
-window.saveEdit = saveEdit;
-window.saveDataTable = saveDataTable;
-window.closeDataTable = closeDataTable;
-window.openDataTableModal = openDataTableModal;
-window.addItem = addItem;
-window.searchItems = searchItems;
-window.filterByCategory = filterByCategory;
-window.openCategoryManager = openCategoryManager;
-
-  // 数据缓存和渲染
   let allData = {};
   let allOrder = [];
   let currentCategoryFilter = "";
 
-  const itemList = document.getElementById("itemList");
+  // 密码验证
+  function checkPassword() {
+    if (passwordInput.value === CORRECT_PASSWORD) {
+      errorHint.style.display = "none";
+      passwordOverlay.style.display = "none";
+      mainApp.style.display = "block";
+      mainApp.setAttribute("aria-hidden", "false");
+      mainApp.focus();
+    } else {
+      errorHint.style.display = "block";
+      passwordInput.focus();
+    }
+  }
+  enterBtn.onclick = checkPassword;
+  passwordInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      checkPassword();
+    }
+  });
+  passwordInput.addEventListener("input", () => {
+    errorHint.style.display = "none";
+  });
+  passwordInput.focus();
 
+  // 分类管理相关
+  let CATEGORY_LIST = [];
+
+  function loadCategoryList(callback) {
+    db.ref('categories').once('value').then(snapshot => {
+      const val = snapshot.val();
+      if (Array.isArray(val) && val.length) {
+        CATEGORY_LIST = val;
+      } else {
+        CATEGORY_LIST = ["科技资讯","数据统计","成员信息","其他"];
+        db.ref('categories').set(CATEGORY_LIST);
+      }
+      if (typeof callback === "function") callback();
+    }).catch(() => {
+      CATEGORY_LIST = ["科技资讯","数据统计","成员信息","其他"];
+      if (typeof callback === "function") callback();
+    });
+  }
+
+  function saveCategoryList(){
+    db.ref('categories').set(CATEGORY_LIST);
+  }
+
+  function renderCategorySelect(){
+    const selects = [
+      {sel:document.getElementById('newCategory'), inp:document.getElementById('newCategory_customInput')},
+      {sel:document.getElementById('editCategoryInput'), inp:document.getElementById('editCategoryInput_customInput')},
+      {sel:document.getElementById('dataTableCategoryInput'), inp:document.getElementById('dataTableCategoryInput_customInput')}
+    ];
+    selects.forEach(({sel, inp})=>{
+      if(!sel) return;
+      const old = sel.value;
+      sel.innerHTML = `<option value="">选择分类</option>` +
+        CATEGORY_LIST.map(c=>`<option value="${c}">${c}</option>`).join('') +
+        `<option value="_custom_">自定义...</option>`;
+      sel.value = old || "";
+      if(inp) inp.style.display="none";
+    });
+
+    // 筛选区按钮
+    const filterGroup = document.getElementById('categoryFilterGroup');
+    if(filterGroup){
+      filterGroup.innerHTML = `<button class="filter-btn" data-value="">全部分类</button>` +
+        CATEGORY_LIST.map(c=>`<button class="filter-btn" data-value="${c}">${c}</button>`).join('');
+      const cur = document.getElementById('categoryFilter')?.value || "";
+      [...filterGroup.children].forEach(btn=>{
+        btn.classList.toggle('active', btn.dataset.value===cur);
+        btn.onclick = function(){
+          document.getElementById("categoryFilter").value = this.dataset.value;
+          filterByCategory();
+          [...filterGroup.children].forEach(b=>b.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    }
+
+    // 同步隐藏select
+    const sel = document.getElementById('categoryFilter');
+    if(sel){
+      const val = sel.value;
+      sel.innerHTML = `<option value="">全部分类</option>`+CATEGORY_LIST.map(c=>`<option value="${c}">${c}</option>`).join('');
+      sel.value = val || "";
+    }
+  }
+
+  [
+    {sel:'newCategory',inp:'newCategory_customInput'},
+    {sel:'editCategoryInput',inp:'editCategoryInput_customInput'},
+    {sel:'dataTableCategoryInput',inp:'dataTableCategoryInput_customInput'}
+  ].forEach(({sel, inp})=>{
+    const select = document.getElementById(sel);
+    const input = document.getElementById(inp);
+    if (!select || !input) return;
+    select.addEventListener('change', function(){
+      if(this.value==="_custom_"){
+        input.style.display="";
+        input.value="";
+        input.focus();
+      }else{
+        input.style.display="none";
+      }
+    });
+    input.addEventListener('keydown', function(e){
+      if(e.key==="Enter"){
+        const val = input.value.trim();
+        if(val && !CATEGORY_LIST.includes(val)){
+          CATEGORY_LIST.push(val);
+          saveCategoryList();
+          renderCategorySelect();
+        }
+        select.value = val;
+        input.style.display = "none";
+      }
+    });
+  });
+
+  // 分类管理弹窗相关
+  const openCategoryManagerBtn = document.getElementById("openCategoryManagerBtn");
+  openCategoryManagerBtn.onclick = openCategoryManager;
+
+  function openCategoryManager(){
+    renderCategoryManager();
+    document.getElementById("categoryManagerModal").classList.add("active");
+  }
+  function closeCategoryManager(){
+    document.getElementById("categoryManagerModal").classList.remove("active");
+  }
+  window.closeCategoryManager = closeCategoryManager;
+
+  function renderCategoryManager() {
+    const ul = document.getElementById("categoryList");
+    ul.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+    CATEGORY_LIST.forEach((cat, idx) => {
+      let count = 0;
+      for (let key in allData) {
+        if (allData[key].category === cat) count++;
+      }
+
+      const li = document.createElement("li");
+      li.className = "cat-item";
+
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "cat-name";
+      nameSpan.textContent = cat;
+
+      const countSpan = document.createElement("span");
+      countSpan.className = "cat-count";
+      countSpan.textContent = count;
+
+      li.appendChild(nameSpan);
+      li.appendChild(countSpan);
+
+      // 重命名按钮
+      const renameBtn = document.createElement("button");
+      renameBtn.className = "cat-btn";
+      renameBtn.title = "重命名";
+      renameBtn.innerHTML = "✏️";
+      renameBtn.onclick = function (e) {
+        e.stopPropagation();
+        const val = prompt("重命名为：", cat);
+        if (!val || val === cat || CATEGORY_LIST.includes(val)) return;
+        // 更新所有相关数据分类
+        for (const key in allData) {
+          if (allData[key].category === cat) {
+            db.ref('data/' + key).update({ category: val }).catch(e => alert("重命名时数据库错误：" + e.message));
+          }
+        }
+        CATEGORY_LIST[idx] = val;
+        saveCategoryList();
+        renderCategoryManager();
+        renderCategorySelect();
+      };
+      li.appendChild(renameBtn);
+
+      // 删除按钮
+      const delBtn = document.createElement("button");
+      delBtn.className = "cat-btn del";
+      delBtn.title = "删除";
+      delBtn.innerHTML = "🗑️";
+      delBtn.onclick = function (e) {
+        e.stopPropagation();
+        if (!confirm(`删除分类“${cat}”后，相关数据的分类将被清空。确定？`)) return;
+        for (const key in allData) {
+          if (allData[key].category === cat) {
+            db.ref('data/' + key).update({ category: "" }).catch(e => alert("删除分类时数据库错误：" + e.message));
+          }
+        }
+        CATEGORY_LIST.splice(idx, 1);
+        saveCategoryList();
+        renderCategoryManager();
+        renderCategorySelect();
+      };
+      li.appendChild(delBtn);
+
+      fragment.appendChild(li);
+    });
+    ul.appendChild(fragment);
+  }
+
+  document.getElementById("addCategoryBtn").onclick = function(){
+    const val = document.getElementById("newCategoryInput").value.trim();
+    if(val && !CATEGORY_LIST.includes(val)){
+      CATEGORY_LIST.push(val);
+      saveCategoryList();
+      renderCategoryManager();
+      renderCategorySelect();
+      document.getElementById("newCategoryInput").value="";
+    }
+  }
+
+  // ================= 数据项相关 ===================
   function highlightKeyword(str, keyword) {
     if (!keyword) return str;
     const safe = s => s.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
@@ -808,16 +1015,20 @@ window.openCategoryManager = openCategoryManager;
 
   function renderAllItems(data, order) {
     itemList.innerHTML = "";
+    const fragment = document.createDocumentFragment();
     (order || Object.keys(data)).forEach(name => {
-      if (data[name] !== undefined) createItemElement(name, data[name]);
+      if (data[name] !== undefined) {
+        const el = createItemElement(name, data[name]);
+        fragment.appendChild(el);
+      }
     });
+    itemList.appendChild(fragment);
   }
 
   function getCardCategory(obj) {
     if (typeof obj === "object" && obj.category) return obj.category;
     return "";
   }
-
   function getCardContent(obj) {
     if (typeof obj === "object" && obj.content !== undefined) return obj.content;
     return obj;
@@ -830,26 +1041,32 @@ window.openCategoryManager = openCategoryManager;
     const container = document.createElement("div");
     container.className = "item";
     container.dataset.name = itemName;
+    container.setAttribute("role", "listitem");
+    container.tabIndex = 0;
     container.onclick = () => openEditor(itemName);
+    container.addEventListener('keydown', e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openEditor(itemName);
+      }
+    });
     container.addEventListener('click', (e) => {
       if(e.target.tagName === 'BUTTON') e.stopPropagation();
     });
 
-    // 分类 badge
     if (category) {
-  let catDiv = document.createElement("div");
-  catDiv.className = "category-badge";
-  catDiv.textContent = category;
-  catDiv.style.margin = "0 auto 7px auto";
-  catDiv.style.background = "linear-gradient(90deg, #1976d2 65%, #1de9b6 100%)";
-  catDiv.style.fontWeight = "bold";
-  catDiv.style.fontSize = "15.5px";
-  catDiv.style.boxShadow = "0 2px 10px #1565c036";
-  catDiv.style.color = "#fff";
-  container.appendChild(catDiv);
-}
+      const catDiv = document.createElement("div");
+      catDiv.className = "category-badge";
+      catDiv.textContent = category;
+      catDiv.style.margin = "0 auto 7px auto";
+      catDiv.style.background = "linear-gradient(90deg, #1976d2 65%, #1de9b6 100%)";
+      catDiv.style.fontWeight = "bold";
+      catDiv.style.fontSize = "15.5px";
+      catDiv.style.boxShadow = "0 2px 10px #1565c036";
+      catDiv.style.color = "#fff";
+      container.appendChild(catDiv);
+    }
 
-    // 标题
     const title = document.createElement("div");
     title.className = "title";
     const keyword = document.getElementById("searchBox")?.value.trim();
@@ -860,182 +1077,23 @@ window.openCategoryManager = openCategoryManager;
     }
     container.appendChild(title);
 
-    // 操作
     const actions = document.createElement("div");
     actions.className = "actions";
-    actions.innerHTML = `
-      <button onclick="openEditor('${itemName}')">修改</button>
-      <button onclick="deleteItem('${itemName}', event)">删除</button>
-    `;
+    const btnEdit = document.createElement("button");
+    btnEdit.type = "button";
+    btnEdit.textContent = "修改";
+    btnEdit.onclick = () => openEditor(itemName);
+    const btnDel = document.createElement("button");
+    btnDel.type = "button";
+    btnDel.textContent = "删除";
+    btnDel.onclick = (e) => deleteItem(itemName, e);
+    actions.appendChild(btnEdit);
+    actions.appendChild(btnDel);
     container.appendChild(actions);
 
-    itemList.appendChild(container);
+    return container;
   }
 
-  // 渲染分类下拉和筛选按钮
-  function renderCategorySelect(){
-    // 添加和编辑表单里的分类下拉
-    [
-      {sel:document.getElementById('newCategory'), inp:document.getElementById('newCategory_customInput')},
-      {sel:document.getElementById('editCategoryInput'), inp:document.getElementById('editCategoryInput_customInput')},
-      {sel:document.getElementById('dataTableCategoryInput'), inp:document.getElementById('dataTableCategoryInput_customInput')}
-    ].forEach(({sel,inp})=>{
-      if(!sel) return;
-      let old = sel.value;
-      sel.innerHTML = `<option value="">选择分类</option>` + 
-        CATEGORY_LIST.map(c=>`<option value="${c}">${c}</option>`).join('') +
-        `<option value="_custom_">自定义...</option>`;
-      sel.value = old || "";
-      if(inp) inp.style.display="none";
-    });
-    // 筛选区按钮
-    let filterGroup = document.getElementById('categoryFilterGroup');
-    if(filterGroup){
-      filterGroup.innerHTML = `<button class="filter-btn" data-value="">全部分类</button>` +
-        CATEGORY_LIST.map(c=>`<button class="filter-btn" data-value="${c}">${c}</button>`).join('');
-      let cur = document.getElementById('categoryFilter')?.value || "";
-      [...filterGroup.children].forEach(btn=>{
-        btn.classList.toggle('active', btn.dataset.value===cur);
-        btn.onclick = function(){
-          document.getElementById("categoryFilter").value = this.dataset.value;
-          filterByCategory();
-          [...filterGroup.children].forEach(b=>b.classList.remove('active'));
-          this.classList.add('active');
-        }
-      });
-    }
-    // 同步原select（隐藏，供代码兼容）
-    let sel = document.getElementById('categoryFilter');
-    if(sel){
-      let val = sel.value;
-      sel.innerHTML = `<option value="">全部分类</option>`+CATEGORY_LIST.map(c=>`<option value="${c}">${c}</option>`).join('');
-      sel.value = val || "";
-    }
-  }
-  renderCategorySelect();
-
-  // 监听自定义分类输入和切换
-  [
-    {sel:'newCategory',inp:'newCategory_customInput'},
-    {sel:'editCategoryInput',inp:'editCategoryInput_customInput'},
-    {sel:'dataTableCategoryInput',inp:'dataTableCategoryInput_customInput'}
-  ].forEach(({sel,inp})=>{
-    let select = document.getElementById(sel);
-    let input = document.getElementById(inp);
-    select.addEventListener('change',function(){
-      if(this.value==="_custom_"){
-        input.style.display="";
-        input.value="";
-        input.focus();
-      }else{
-        input.style.display="none";
-      }
-    });
-    input.addEventListener('keydown',function(e){
-      if(e.key==="Enter"){
-        let val = input.value.trim();
-        if(val && !CATEGORY_LIST.includes(val)){
-          CATEGORY_LIST.push(val);
-          saveCategoryList();
-          renderCategorySelect();
-        }
-        select.value = val;
-        input.style.display="none";
-      }
-    });
-  });
-
-  // 分类管理弹窗
-  document.getElementById("openCategoryManagerBtn").onclick = openCategoryManager;
-  function openCategoryManager(){
-    renderCategoryManager();
-    document.getElementById("categoryManagerModal").classList.add("active");
-  }
-  function closeCategoryManager(){
-    document.getElementById("categoryManagerModal").classList.remove("active");
-  }
-window.closeCategoryManager = closeCategoryManager;
-  function renderCategoryManager() {
-    let ul = document.getElementById("categoryList");
-    ul.innerHTML = "";
-    CATEGORY_LIST.forEach((cat, idx) => {
-      // 统计分类下数据数量
-      let count = 0;
-      for (let key in allData) {
-        if (allData[key].category === cat) count++;
-      }
-
-      let li = document.createElement("li");
-      li.className = "cat-item";
-
-      // 分类名和数量
-      let nameSpan = document.createElement("span");
-      nameSpan.className = "cat-name";
-      nameSpan.textContent = cat;
-
-      let countSpan = document.createElement("span");
-      countSpan.className = "cat-count";
-      countSpan.textContent = count;
-
-      li.appendChild(nameSpan);
-      li.appendChild(countSpan);
-
-      // 重命名按钮
-      let renameBtn = document.createElement("button");
-      renameBtn.className = "cat-btn";
-      renameBtn.title = "重命名";
-      renameBtn.innerHTML = "✏️";
-      renameBtn.onclick = function (e) {
-        e.stopPropagation();
-        let val = prompt("重命名为：", cat);
-        if (!val || val === cat || CATEGORY_LIST.includes(val)) return;
-        for (let key in allData) {
-          if (allData[key].category === cat) {
-            db.ref('data/' + key).update({ category: val });
-          }
-        }
-        CATEGORY_LIST[idx] = val;
-        saveCategoryList();
-        renderCategoryManager();
-        renderCategorySelect();
-      };
-      li.appendChild(renameBtn);
-
-      // 删除按钮
-      let delBtn = document.createElement("button");
-      delBtn.className = "cat-btn del";
-      delBtn.title = "删除";
-      delBtn.innerHTML = "🗑️";
-      delBtn.onclick = function (e) {
-        e.stopPropagation();
-        if (!confirm(`删除分类“${cat}”后，相关数据的分类将被清空。确定？`)) return;
-        for (let key in allData) {
-          if (allData[key].category === cat) {
-            db.ref('data/' + key).update({ category: "" });
-          }
-        }
-        CATEGORY_LIST.splice(idx, 1);
-        saveCategoryList();
-        renderCategoryManager();
-        renderCategorySelect();
-      };
-      li.appendChild(delBtn);
-
-      ul.appendChild(li);
-    });
-  }
-  document.getElementById("addCategoryBtn").onclick = function(){
-    let val = document.getElementById("newCategoryInput").value.trim();
-    if(val && !CATEGORY_LIST.includes(val)){
-      CATEGORY_LIST.push(val);
-      saveCategoryList();
-      renderCategoryManager();
-      renderCategorySelect();
-      document.getElementById("newCategoryInput").value="";
-    }
-  }
-
-  // 新增 item 支持分类（含自定义）
   function addItem() {
     const name = document.getElementById("newItem").value.trim();
     let catSel = document.getElementById("newCategory");
@@ -1043,13 +1101,15 @@ window.closeCategoryManager = closeCategoryManager;
     if(cat === "_custom_"){
       cat = document.getElementById("newCategory_customInput").value.trim();
       if(cat && !CATEGORY_LIST.includes(cat)){
-        CATEGORY_LIST.push(cat); saveCategoryList(); renderCategorySelect();
+        CATEGORY_LIST.push(cat);
+        saveCategoryList();
+        renderCategorySelect();
       }
     }
     if (!name) return alert("请输入名称");
     db.ref('data/' + name).once("value").then(snapshot => {
       if (snapshot.exists()) return alert("该选项已存在！");
-      db.ref('data/' + name).set({ content: "", category: cat });
+      db.ref('data/' + name).set({ content: "", category: cat }).catch(e => alert("添加失败：" + e.message));
       db.ref('order').once("value").then(snap => {
         const order = snap.val() || [];
         order.push(name);
@@ -1060,12 +1120,12 @@ window.closeCategoryManager = closeCategoryManager;
       document.getElementById("newCategory_customInput").style.display="none";
     });
   }
+  window.addItem = addItem;
 
-  window.openEditor = openEditor;
   function deleteItem(name, e) {
     e.stopPropagation();
     if (!confirm("确认删除？")) return;
-    db.ref('data/' + name).remove();
+    db.ref('data/' + name).remove().catch(e => alert("删除失败：" + e.message));
     db.ref('order').once("value").then(snap => {
       const order = (snap.val() || []).filter(n => n !== name);
       db.ref('order').set(order);
@@ -1073,50 +1133,41 @@ window.closeCategoryManager = closeCategoryManager;
   }
   window.deleteItem = deleteItem;
 
-  // 编辑弹窗逻辑
   let currentEditName = "";
 
   function openEditor(name) {
-  db.ref('data/' + name).once("value").then(snapshot => {
-    let data = snapshot.val();
-    let content, category;
+    db.ref('data/' + name).once("value").then(snapshot => {
+      const data = snapshot.val() || {};
+      if (typeof data === "object" && typeof data.content === "string" && data.content.startsWith("<table")) {
+        openDataTableModal(name, data.content);
+        return;
+      }
+      currentEditName = name;
+      document.getElementById("editTitleInput").value = name;
+      document.getElementById("editCategoryInput").value = data.category || "";
+      document.getElementById("editCategoryInput_customInput").style.display = "none";
+      document.getElementById("editContent").innerHTML = data.content || "";
+      document.getElementById("editModal").classList.add("active");
+      setTimeout(() => document.getElementById("editTitleInput").focus(), 100);
+    });
+  }
+  window.openEditor = openEditor;
 
-    // 修正：判断 content 字段是否为表格
-    if (typeof data === "object" && typeof data.content === "string" && data.content.startsWith("<table")) {
-      openDataTableModal(name, data.content); // 直接打开数据表格弹窗
-      return;
-    }
-
-    if (typeof data === "object") {
-      content = data.content || "";
-      category = data.category || "";
-    } else {
-      content = data || "";
-      category = "";
-    }
-
-    currentEditName = name;
-    document.getElementById("editTitleInput").value = name;
-    document.getElementById("editCategoryInput").value = category || "";
-    document.getElementById("editCategoryInput_customInput").style.display="none";
-    document.getElementById("editContent").innerHTML = content;
-    document.getElementById("editModal").classList.add("active");
-    setTimeout(() => {
-      document.getElementById("editTitleInput").focus();
-    }, 100);
-  });
-}
   function closeEdit() {
     document.getElementById("editModal").classList.remove("active");
   }
+  window.closeEdit = closeEdit;
+
   function saveEdit() {
     const newTitle = document.getElementById("editTitleInput").value.trim();
     let catSel = document.getElementById("editCategoryInput");
     let newCategory = catSel.value;
-    if(newCategory==="_custom_"){
+    if(newCategory === "_custom_"){
       newCategory = document.getElementById("editCategoryInput_customInput").value.trim();
       if(newCategory && !CATEGORY_LIST.includes(newCategory)){
-        CATEGORY_LIST.push(newCategory); saveCategoryList(); renderCategorySelect();
+        CATEGORY_LIST.push(newCategory);
+        saveCategoryList();
+        renderCategorySelect();
       }
     }
     const content = document.getElementById("editContent").innerHTML;
@@ -1134,16 +1185,17 @@ window.closeCategoryManager = closeCategoryManager;
     }
     closeEdit();
   }
-  document.addEventListener('keydown', function(e){
-    if(document.getElementById("editModal").classList.contains("active")) {
-      if(e.key==="Escape") closeEdit();
+  window.saveEdit = saveEdit;
+
+  document.addEventListener('keydown', e => {
+    if(document.getElementById("editModal").classList.contains("active") && e.key==="Escape") {
+      closeEdit();
     }
   });
-  document.getElementById("editModal").addEventListener("click", function(e){
-    if(e.target === this) closeEdit();
+  document.getElementById("editModal").addEventListener("click", e => {
+    if(e.target === e.currentTarget) closeEdit();
   });
 
-  // 搜索
   function searchItems() {
     const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
     let categorySelected = document.getElementById("categoryFilter").value;
@@ -1169,12 +1221,12 @@ window.closeCategoryManager = closeCategoryManager;
       </div>`;
     }
   }
+  window.searchItems = searchItems;
 
-  // 分类筛选
   function filterByCategory() {
     const selected = document.getElementById("categoryFilter").value;
     currentCategoryFilter = selected;
-    let keyword = document.getElementById("searchBox").value.trim().toLowerCase();
+    const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
     if (!selected && !keyword) {
       renderAllItems(allData, allOrder);
       return;
@@ -1199,19 +1251,24 @@ window.closeCategoryManager = closeCategoryManager;
       </div>`;
     }
   }
+  window.filterByCategory = filterByCategory;
 
+  // 监听数据库数据更新并渲染
   db.ref().on("value", snapshot => {
     const val = snapshot.val() || {};
     allData = val.data || {};
     allOrder = val.order || Object.keys(allData);
-    renderCategorySelect();
-    if (currentCategoryFilter || document.getElementById("searchBox").value.trim()) {
-      filterByCategory();
-    } else {
-      renderAllItems(allData, allOrder);
-    }
+    loadCategoryList(() => {
+      renderCategorySelect();
+      if (currentCategoryFilter || document.getElementById("searchBox").value.trim()) {
+        filterByCategory();
+      } else {
+        renderAllItems(allData, allOrder);
+      }
+    });
   });
 
+  // 拖拽排序
   new Sortable(itemList, {
     animation: 150,
     delay: 2000,
@@ -1223,16 +1280,15 @@ window.closeCategoryManager = closeCategoryManager;
     }
   });
 
-  // 数据表弹窗和自动求和（不卡光标）
+  // 数据表弹窗相关
   let currentDataTableTitle = "";
 
   function openDataTableModal(name = "", tableHtml = "") {
     document.getElementById("dataTableTitleInput").value = name || "";
     currentDataTableTitle = name || "";
-    let cat = "";
     if (name) {
       db.ref('data/' + name).once("value").then(snapshot => {
-        let val = snapshot.val();
+        const val = snapshot.val();
         if (typeof val === "object" && val.category) {
           document.getElementById("dataTableCategoryInput").value = val.category;
         } else {
@@ -1266,6 +1322,8 @@ window.closeCategoryManager = closeCategoryManager;
     document.getElementById("dataTableModal").classList.add("active");
     document.getElementById("dataTableCategoryInput_customInput").style.display="none";
   }
+  window.openDataTableModal = openDataTableModal;
+
   function buildTable(arr) {
     const colCount = arr[0]?.length || 0;
     let html = "";
@@ -1279,6 +1337,7 @@ window.closeCategoryManager = closeCategoryManager;
     document.getElementById("customTable").innerHTML = html;
     updateTableSumRow();
   }
+
   window.updateTableSumRow = function() {
     const trs = document.querySelectorAll("#customTable tr");
     let arr = [];
@@ -1326,6 +1385,7 @@ window.closeCategoryManager = closeCategoryManager;
   function closeDataTable(){
     document.getElementById("dataTableModal").classList.remove("active");
   }
+  window.closeDataTable = closeDataTable;
 
   function saveDataTable(){
     const titleInput = document.getElementById("dataTableTitleInput");
@@ -1335,17 +1395,18 @@ window.closeCategoryManager = closeCategoryManager;
     if(cat === "_custom_"){
       cat = document.getElementById("dataTableCategoryInput_customInput").value.trim();
       if(cat && !CATEGORY_LIST.includes(cat)){
-        CATEGORY_LIST.push(cat); saveCategoryList(); renderCategorySelect();
+        CATEGORY_LIST.push(cat);
+        saveCategoryList();
+        renderCategorySelect();
       }
     }
     if(!title) return alert("标题不能为空！");
-    // 获取表格内容
     const trs = document.querySelectorAll("#customTable tr");
     let arr = [];
-    trs.forEach((tr, idx) => {
+    trs.forEach(tr => {
       if (tr.id === "sumRow") return;
       let row = [];
-      tr.querySelectorAll('td input').forEach(inp=>row.push(inp.value));
+      tr.querySelectorAll('td input').forEach(inp => row.push(inp.value));
       arr.push(row);
     });
     let tableHtml = "<table border='1' style='border-collapse:collapse'>";
@@ -1361,33 +1422,28 @@ window.closeCategoryManager = closeCategoryManager;
     let obj = { content: tableHtml, category: cat };
 
     if (title !== currentDataTableTitle && currentDataTableTitle) {
-  // 重命名，删除旧 key，并更新顺序
-  firebase.database().ref('data/' + currentDataTableTitle).remove();
-  firebase.database().ref('order').once("value").then(snap => {
-    let order = snap.val() || [];
-    // 只做替换，不再push
-    order = order.map(v => v === currentDataTableTitle ? title : v);
-    firebase.database().ref('order').set(order);
-  });
-} else {
-  // 新增时，才push到末尾
-  firebase.database().ref('order').once("value").then(snap => {
-    let order = snap.val() || [];
-    if (!order.includes(title)) {
-      order.push(title);
-      firebase.database().ref('order').set(order);
+      // 重命名，删除旧 key，并更新顺序
+      firebase.database().ref('data/' + currentDataTableTitle).remove();
+      firebase.database().ref('order').once("value").then(snap => {
+        let order = snap.val() || [];
+        order = order.map(v => v === currentDataTableTitle ? title : v);
+        firebase.database().ref('order').set(order);
+      });
+    } else {
+      // 新增时，才push到末尾
+      firebase.database().ref('order').once("value").then(snap => {
+        let order = snap.val() || [];
+        if (!order.includes(title)) {
+          order.push(title);
+          firebase.database().ref('order').set(order);
+        }
+      });
     }
-  });
-}
 
-// 保存数据（无论重命名还是新增都要有）
-firebase.database().ref('data/' + title).set(obj);
-
-closeDataTable();
-
-
+    firebase.database().ref('data/' + title).set(obj);
     closeDataTable();
   }
+  window.saveDataTable = saveDataTable;
 
   document.getElementById("dataTableModal").addEventListener("click",function(e){
     if(e.target === this) closeDataTable();
@@ -1398,12 +1454,12 @@ closeDataTable();
   const canvas = document.createElement('canvas');
   canvas.id = 'interactiveSnowCanvas';
   canvas.style.position = 'fixed';
-canvas.style.top = '0';
-canvas.style.left = '0';
-canvas.style.width = '100vw';
-canvas.style.height = '100vh';
-canvas.style.pointerEvents = 'none';  // 改成 none 事件穿透
-canvas.style.zIndex = '9999';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100vw';
+  canvas.style.height = '100vh';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '9999';
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext('2d');
@@ -1416,13 +1472,11 @@ canvas.style.zIndex = '9999';
   resize();
   window.addEventListener('resize', resize);
 
-  // 绘制六角形雪花函数，带渐变发光边缘
   function drawHexSnowflake(ctx, x, y, radius, rotation, opacity) {
     const sides = 6;
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(rotation);
-    // 创建渐变，中心透明，边缘发光
     const grad = ctx.createRadialGradient(0, 0, radius * 0.3, 0, 0, radius);
     grad.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.7})`);
     grad.addColorStop(0.7, `rgba(255, 255, 255, 0.1)`);
@@ -1444,7 +1498,7 @@ canvas.style.zIndex = '9999';
   class FancySnowflake {
     constructor() {
       this.reset();
-      this.isPopping = false; // 是否正在“变成泡泡”动画
+      this.isPopping = false;
       this.popRadius = 0;
       this.popMaxRadius = 30;
       this.popOpacity = 1;
@@ -1452,14 +1506,14 @@ canvas.style.zIndex = '9999';
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * -height;
-      this.radius = Math.random() * 10 + 8; // 8 ~ 18 px
-      this.speedY = Math.random() * 1 + 0.6; // 下落速度
-      this.speedX = Math.random() * 0.4 - 0.2; // 左右摆动速度
+      this.radius = Math.random() * 10 + 8;
+      this.speedY = Math.random() * 1 + 0.6;
+      this.speedX = Math.random() * 0.4 - 0.2;
       this.rotation = Math.random() * Math.PI * 2;
       this.rotationSpeed = (Math.random() * 0.01 + 0.002) * (Math.random() < 0.5 ? 1 : -1);
-      this.opacity = Math.random() * 0.5 + 0.5; // 0.5 ~ 1
-      this.amplitude = Math.random() * 10 + 15; // 摆动幅度
-      this.phase = Math.random() * Math.PI * 2; // 摆动相位
+      this.opacity = Math.random() * 0.5 + 0.5;
+      this.amplitude = Math.random() * 10 + 15;
+      this.phase = Math.random() * Math.PI * 2;
       this.phaseSpeed = Math.random() * 0.03 + 0.01;
       this.isPopping = false;
       this.popRadius = 0;
@@ -1468,12 +1522,9 @@ canvas.style.zIndex = '9999';
     }
     update() {
       if(this.isPopping) {
-        // 泡泡动画，扩大且透明度减小
         this.popRadius += 1.5;
         this.popOpacity -= 0.05;
-        if(this.popOpacity <= 0) {
-          this.reset();
-        }
+        if(this.popOpacity <= 0) this.reset();
         return;
       }
       this.y += this.speedY;
@@ -1486,7 +1537,6 @@ canvas.style.zIndex = '9999';
     }
     draw(ctx) {
       if(this.isPopping) {
-        // 画气泡
         ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = `rgba(255,255,255,${this.popOpacity})`;
@@ -1501,7 +1551,6 @@ canvas.style.zIndex = '9999';
       }
     }
     containsPoint(px, py) {
-      // 简单用圆形碰撞检测
       const dx = px - this.x;
       const dy = py - this.y;
       return dx * dx + dy * dy <= this.radius * this.radius;
@@ -1528,15 +1577,12 @@ canvas.style.zIndex = '9999';
     }
     requestAnimationFrame(animate);
   }
-
   animate();
 
-  // 点击事件检测雪花，触发泡泡消失动画
   canvas.addEventListener('click', (e) => {
     const rect = canvas.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const clickY = e.clientY - rect.top;
-    // 反向遍历，优先点中最上层雪花
     for(let i = snowflakes.length - 1; i >= 0; i--) {
       const flake = snowflakes[i];
       if(!flake.isPopping && flake.containsPoint(clickX, clickY)) {
