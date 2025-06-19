@@ -1015,30 +1015,35 @@ window.closeCategoryManager = closeCategoryManager;
   let currentEditName = "";
 
   function openEditor(name) {
-    db.ref('data/' + name).once("value").then(snapshot => {
-      let data = snapshot.val();
-      let content, category;
-      if (typeof data === "object") {
-        content = data.content || "";
-        category = data.category || "";
-      } else if (typeof data === "string" && data.startsWith("<table")) {
-        openDataTableModal(name, data);
-        return;
-      } else {
-        content = data || "";
-        category = "";
-      }
-      currentEditName = name;
-      document.getElementById("editTitleInput").value = name;
-      document.getElementById("editCategoryInput").value = category || "";
-      document.getElementById("editCategoryInput_customInput").style.display="none";
-      document.getElementById("editContent").innerHTML = content;
-      document.getElementById("editModal").classList.add("active");
-      setTimeout(() => {
-        document.getElementById("editTitleInput").focus();
-      }, 100);
-    });
-  }
+  db.ref('data/' + name).once("value").then(snapshot => {
+    let data = snapshot.val();
+    let content, category;
+
+    // 修正：判断 content 字段是否为表格
+    if (typeof data === "object" && typeof data.content === "string" && data.content.startsWith("<table")) {
+      openDataTableModal(name, data.content); // 直接打开数据表格弹窗
+      return;
+    }
+
+    if (typeof data === "object") {
+      content = data.content || "";
+      category = data.category || "";
+    } else {
+      content = data || "";
+      category = "";
+    }
+
+    currentEditName = name;
+    document.getElementById("editTitleInput").value = name;
+    document.getElementById("editCategoryInput").value = category || "";
+    document.getElementById("editCategoryInput_customInput").style.display="none";
+    document.getElementById("editContent").innerHTML = content;
+    document.getElementById("editModal").classList.add("active");
+    setTimeout(() => {
+      document.getElementById("editTitleInput").focus();
+    }, 100);
+  });
+}
   function closeEdit() {
     document.getElementById("editModal").classList.remove("active");
   }
