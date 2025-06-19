@@ -1295,17 +1295,47 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // 拖拽排序
-  new Sortable(itemList, {
-    animation: 150,
-    delay: 2000,
-    delayOnTouchOnly: true,
-    touchStartThreshold: 3,
-    onEnd: function () {
-      const newOrder = [...itemList.children].map(div => div.dataset.name);
-      db.ref('order').set(newOrder);
-    }
-  });
+new Sortable(itemList, {
+  animation: 150,
+  delay: 2000,
+  delayOnTouchOnly: true,
+  touchStartThreshold: 3,
+  onEnd: function () {
+    const newOrder = [...itemList.children].map(div => div.dataset.name);
+    db.ref('order').set(newOrder);
+  }
+});
 
+// 允许编辑框粘贴图片
+document.getElementById("editContent").addEventListener("paste", function(e) {
+  if (e.clipboardData) {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf("image") !== -1) {
+        const blob = items[i].getAsFile();
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = document.createElement("img");
+          img.src = event.target.result;
+          img.style.maxWidth = "100%";
+          const sel = window.getSelection();
+          if (!sel.rangeCount) return;
+          const range = sel.getRangeAt(0);
+          range.deleteContents();
+          range.insertNode(img);
+          // 光标移动到图片后面
+          range.setStartAfter(img);
+          range.setEndAfter(img);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        };
+        reader.readAsDataURL(blob);
+        e.preventDefault();
+        return false;
+      }
+    }
+  }
+});
   // 数据表弹窗相关
   let currentDataTableTitle = "";
 
@@ -1616,8 +1646,7 @@ document.addEventListener("DOMContentLoaded", function() {
         break;
       }
     }
-  });
-
+});
 })();
 </script>
 </body>
