@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <title>新加坡种子深科社区</title>
+  <title>浅水湾刘德伐</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <style>
     :root {
@@ -42,11 +42,10 @@
       text-align: center;
       padding: 2px 6px;
     }
-    .edit-title-input {
+    .edit-title-input, .edit-category-select {
       width: 100%;
       box-sizing: border-box;
       font-size: 18px;
-      font-weight: bold;
       border: 1.5px solid #b8e0ff;
       border-radius: 7px;
       padding: 11px 12px;
@@ -57,23 +56,24 @@
       transition: border 0.16s;
       text-align: center;
     }
-    header {
-      color: #2075da;
-      font-size: 2.1rem;
-      font-weight: bold;
-      text-shadow: 0 2px 8px #fff, 0 8px 20px #87cdf3a0;
-      margin-bottom: 24px;
-      padding: 28px 0 24px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      border-radius: 0 0 24px 24px;
-      position: relative;
-      z-index: 2;
-      background: rgba(255,255,255,0.72);
-      box-shadow: 0 4px 16px #1976d219;
-    }
+    .edit-category-select, #newCategory, #dataTableCategoryInput {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 9px;
+  border: 1.5px solid #1976d2;
+  background: #f8fcff;
+  box-shadow: 0 2px 9px #1976d222;
+  outline: none;
+  color: #1976d2;
+  min-width: 110px;
+  margin-bottom: 8px;
+  transition: border 0.15s, box-shadow 0.18s;
+}
+.edit-category-select:focus, #newCategory:focus, #dataTableCategoryInput:focus {
+  border: 1.5px solid #1de9b6;
+  box-shadow: 0 2px 14px #1de9b644;
+}
     main {
       margin: 40px auto;
       max-width: 1200px;
@@ -87,6 +87,63 @@
       backdrop-filter: blur(14px) saturate(1.13);
       -webkit-backdrop-filter: blur(14px) saturate(1.13);
     }
+    .main-flex {
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+    }
+    .sidebar {
+      min-width: 140px;
+      max-width: 220px;
+      padding: 22px 10px 0 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 13px;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .filter-btn {
+      border-radius: 8px;
+      font-size: 15px;
+      padding: 11px 0;
+      background: #e3f2fd;
+      color: #1976d2;
+      border: none;
+      box-shadow: 0 2px 8px #1976d219;
+      cursor: pointer;
+      transition: background 0.14s, color 0.12s;
+      width: 100%;
+      text-align: center;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: linear-gradient(90deg,#1a73e8 80%, #1de9b6 100%);
+      color: #fff;
+    }
+    .cat-mgr-btn {
+      margin-top: 8px;
+      padding: 11px 0;
+      font-size: 15px;
+      border-radius: 10px;
+      background: linear-gradient(90deg,#00e2c9 40%,#1976d2 100%);
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      box-shadow: 0 2px 10px #1de9b627;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.16s;
+    }
+    .cat-mgr-btn:hover {
+      background: linear-gradient(90deg,#1976d2 50%,#26c6da 100%);
+    }
+    .main-content {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
     .input-group {
       gap: 14px;
       margin-bottom: 34px;
@@ -98,6 +155,7 @@
       background: rgba(255,255,255,0.86);
       backdrop-filter: blur(7px);
       box-shadow: 0 4px 16px #1de9b610;
+      align-items: center;
     }
     .input-group input[type="text"] {
       font-size: 17px;
@@ -112,10 +170,9 @@
       border: 1.5px solid #1a73e8;
       background: rgba(240,250,255,0.87);
     }
-    .input-group button {
+    .input-group button, .input-group select {
       border-radius: 13px;
       font-size: 17px;
-      background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
       font-weight: bold;
       padding: 13px 22px;
       color: #fff;
@@ -123,10 +180,66 @@
       box-shadow: 0 2px 6px #00eaff26;
       cursor: pointer;
       transition: background 0.13s, transform 0.13s;
+      background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
+      margin-right: 0;
     }
+    .input-group select {
+  border-radius: 13px;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 13px 22px;
+  color: #fff;
+  border: none;
+  background: linear-gradient(90deg, #2196f3 60%, #1de9b6 100%);
+  box-shadow: 0 2px 6px #00eaff26;
+  margin-right: 0;
+  min-width: 120px;
+  height: 48px;           /* 让select和按钮高度一致 */
+  cursor: pointer;
+  outline: none;
+  appearance: none;       /* 移除原生样式（火狐可能用-moz-appearance:none） */
+  transition: background 0.13s, transform 0.13s;
+  display: inline-block;
+  line-height: 1;         /* 让文字居中 */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.input-group select:focus,
+.input-group select:hover {
+  background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* 隐藏默认下拉箭头，自定义箭头可选 */
+.input-group select::-ms-expand { display: none; }
+.input-group select {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="20" width="20" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px 18px;
+  padding-right: 38px;
+}
     .input-group button:hover {
       background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
       transform: translateY(-1px) scale(1.04);
+    }
+    .category-input-custom {
+      display: none;
+      margin-left: 8px;
+      font-size: 15px;
+      border-radius: 7px;
+      border: 1.5px solid #b8e0ff;
+      background: #f8fcff;
+      padding: 9px 10px;
+      outline: none;
+      width: 110px;
+      box-shadow: 0 2px 7px #1976d215;
     }
     .container {
       display: grid;
@@ -148,6 +261,7 @@
       justify-content: space-between;
       transition: box-shadow 0.14s, transform 0.13s, background 0.18s;
       cursor: pointer;
+      position: relative;
     }
     .item:hover {
       box-shadow: 0 8px 28px #2196f330;
@@ -161,6 +275,20 @@
       text-align: center;
       color: #1565c0;
       word-break: break-all;
+    }
+    .category-badge {
+      display: inline-block;
+      background: #1de9b6;
+      color: #fff;
+      font-size: 13px;
+      padding: 2px 11px 3px 11px;
+      border-radius: 11px;
+      margin-bottom: 9px;
+      margin-right: 6px;
+      text-align: left;
+      letter-spacing: 1px;
+      font-weight: 500;
+      box-shadow: 0 2px 10px #1de9b627;
     }
     .actions {
       display: flex;
@@ -217,7 +345,6 @@
       margin-bottom:8px;
       color:#1976d2
     }
-    .edit-title-input:focus { border: 1.5px solid #1a73e8;}
     .rich-content {
       flex: 1 1 auto;
       min-height: 400px;
@@ -278,6 +405,11 @@
     }
     @media (max-width:900px) {
       main { padding: 4vw 2vw; }
+      .main-flex { flex-direction: column; }
+      .sidebar { flex-direction: row; gap: 12px; max-width: none; min-width: 0; padding: 7px 0 0 0;}
+      .filter-group { flex-direction: row; gap: 9px; }
+      .filter-btn, .cat-mgr-btn { width: auto; min-width: 90px; padding: 9px 14px;}
+      .cat-mgr-btn { margin-top: 0; }
       .container { gap: 18px 7px; }
       .item { min-width: 130px; }
       .edit-box { min-width: 0; padding: 12px 3vw 10px 3vw;}
@@ -384,7 +516,80 @@
       font-weight: bold;
       text-shadow: 0 2px 8px #fff6;
     }
-  </style>
+.cat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  transition: background 0.16s;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+.cat-item:hover {
+  background: #e3f2fd80;
+}
+.cat-name {
+  flex: 1 1 auto;
+  word-break: break-all;
+  font-size: 16px;
+  color: #1976d2;
+  font-weight: 500;
+}
+.cat-count {
+  font-size: 13px;
+  color: #666;
+  background: #e0f7fa;
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin-right: 4px;
+}
+.cat-btn {
+  background: none;
+  border: none;
+  font-size: 17px;
+  color: #1976d2;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.13s;
+  margin-left: 2px;
+}
+.cat-btn:hover {
+  background: #e3f2fd;
+}
+.cat-btn.del {
+  color: #e53935;
+}
+.cat-btn.del:hover {
+  background: #ffcdd2;
+}
+  /* header 样式增强（新加的） */
+  header {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  min-width: 100vw;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 6px 24px #1976d215;
+  border-radius: 0 0 28px 28px;
+  padding: 34px 0 32px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  box-sizing: border-box;
+}
+body, html { overflow-x: hidden; }
+header span {
+  color: #1976d2;
+  font-size: 2.4rem;
+  font-weight: bold;
+  text-shadow: 0 2px 8px #fff, 0 8px 20px #b0e0ff66;
+  letter-spacing: 2px;
+}
+</style>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
@@ -398,21 +603,40 @@
   </div>
   <div id="mainApp">
     <header>
-      <span>新加坡种子深科社区</span>
+      <span>浅水湾刘德伐</span>
     </header>
     <main>
-      <div class="input-group">
-        <input type="text" id="newItem" placeholder="输入选项名称" />
-        <button onclick="addItem()">添加选项</button>
-        <button onclick="openDataTableModal()">添加数据</button>
-        <input type="text" id="searchBox" placeholder="搜索选项或内容" oninput="searchItems()" />
+      <div class="main-flex">
+        <aside class="sidebar">
+          <div id="categoryFilterGroup" class="filter-group"></div>
+          <button type="button" id="openCategoryManagerBtn" class="cat-mgr-btn">分类管理</button>
+        </aside>
+        <section class="main-content">
+          <div class="input-group">
+            <input type="text" id="newItem" placeholder="输入选项名称" />
+            <div style="display:flex;align-items:center;">
+              <select id="newCategory"></select>
+              <input type="text" id="newCategory_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" />
+            </div>
+            <button onclick="addItem()">添加选项</button>
+            <button onclick="openDataTableModal()">添加数据</button>
+            <input type="text" id="searchBox" placeholder="搜索选项或内容" oninput="searchItems()" />
+            <select id="categoryFilter" onchange="filterByCategory()" style="display:none;">
+              <option value="">全部分类</option>
+            </select>
+          </div>
+          <div id="itemList" class="container"></div>
+        </section>
       </div>
-      <div id="itemList" class="container"></div>
     </main>
     <div id="editModal" class="edit-modal" tabindex="-1">
       <div class="edit-box" id="editBox">
         <h3>编辑选项卡</h3>
         <input class="edit-title-input" id="editTitleInput" placeholder="请输入选项卡标题" />
+        <div style="display:flex;align-items:center;">
+          <select class="edit-category-select" id="editCategoryInput"></select>
+          <input type="text" id="editCategoryInput_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" />
+        </div>
         <div class="rich-content" id="editContent" contenteditable="true"></div>
         <div class="edit-actions">
           <button onclick="saveEdit()">保存</button>
@@ -424,6 +648,10 @@
       <div class="edit-box" id="dataTableBox">
         <h3>添加数据卡片</h3>
         <input class="edit-title-input" id="dataTableTitleInput" placeholder="请输入数据卡片标题" />
+        <div style="display:flex;align-items:center;">
+          <select class="edit-category-select" id="dataTableCategoryInput"></select>
+          <input type="text" id="dataTableCategoryInput_customInput" class="category-input-custom" placeholder="自定义分类" maxlength="8" />
+        </div>
         <div id="dataTableWrapper">
           <table id="customTable" border="1" style="border-collapse:collapse;"></table>
         </div>
@@ -433,331 +661,665 @@
         </div>
       </div>
     </div>
+    <!-- 分类管理弹窗 -->
+    <div id="categoryManagerModal" class="edit-modal" tabindex="-1">
+      <div class="edit-box" style="min-width:260px;">
+        <h3>分类管理</h3>
+        <ul id="categoryList" style="list-style:none;padding:0;margin-bottom:16px;">
+        </ul>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="newCategoryInput" placeholder="新分类名" style="flex:1 1 auto;padding:9px 12px;font-size:15px;border-radius:7px;border:1.5px solid #b8e0ff;background:#f8fcff;outline:none;" maxlength="8">
+          <button id="addCategoryBtn" style="padding:8px 16px;border-radius:7px;background:linear-gradient(90deg,#1de9b6 30%,#1976d2 100%);color:#fff;border:none;font-size:15px;font-weight:bold;">新增</button>
+        </div>
+        <div class="edit-actions" style="margin-top:18px;">
+          <button onclick="closeCategoryManager()">关闭</button>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
-    // firebase配置
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZFBRN2YfUdSSiCsIy63iMUqwdOqUZO1k",
-      authDomain: "yuge1031-45725.firebaseapp.com",
-      databaseURL: "https://yuge1031-45725-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "yuge1031-45725",
-      storageBucket: "yuge1031-45725.appspot.com",
-      messagingSenderId: "131078767676",
-      appId: "1:131078767676:web:89418f134456102c9aaf39"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+document.addEventListener("DOMContentLoaded", function() {
 
-    // 密码界面
-    const CORRECT_PASSWORD = "qwe96300";
-    function checkPassword() {
-      const input = document.getElementById("accessPassword").value;
-      if (input === CORRECT_PASSWORD) {
-        document.getElementById("passwordOverlay").style.display = "none";
-        document.getElementById("mainApp").style.display = "block";
-      } else {
-        document.getElementById("errorHint").style.display = "block";
-      }
+  // 分类管理功能：持久化到localStorage
+  function loadCategoryList(){
+    try {
+      let local = JSON.parse(localStorage.getItem("CATEGORY_LIST"));
+      if(Array.isArray(local) && local.length) return local;
+    } catch{}
+    return ["科技资讯","数据统计","成员信息","其他"];
+  }
+  function saveCategoryList(){
+    localStorage.setItem("CATEGORY_LIST", JSON.stringify(CATEGORY_LIST));
+  }
+  let CATEGORY_LIST = loadCategoryList();
+
+  // firebase配置
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZFBRN2YfUdSSiCsIy63iMUqwdOqUZO1k",
+    authDomain: "yuge1031-45725.firebaseapp.com",
+    databaseURL: "https://yuge1031-45725-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "yuge1031-45725",
+    storageBucket: "yuge1031-45725.appspot.com",
+    messagingSenderId: "131078767676",
+    appId: "1:131078767676:web:89418f134456102c9aaf39"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // 密码界面
+  const CORRECT_PASSWORD = "qwe96300";
+  function checkPassword() {
+    const input = document.getElementById("accessPassword").value;
+    if (input === CORRECT_PASSWORD) {
+      document.getElementById("passwordOverlay").style.display = "none";
+      document.getElementById("mainApp").style.display = "block";
+    } else {
+      document.getElementById("errorHint").style.display = "block";
     }
-    document.getElementById("enterBtn").onclick = checkPassword;
-    document.getElementById("accessPassword").addEventListener("keydown", function(e){
-      if(e.key === "Enter") checkPassword();
+  }
+  document.getElementById("enterBtn").onclick = checkPassword;
+  document.getElementById("accessPassword").addEventListener("keydown", function(e){
+    if(e.key === "Enter") checkPassword();
+window.closeEdit = closeEdit;
+window.saveEdit = saveEdit;
+window.saveDataTable = saveDataTable;
+window.closeDataTable = closeDataTable;
+window.openDataTableModal = openDataTableModal;
+window.addItem = addItem;
+window.searchItems = searchItems;
+window.filterByCategory = filterByCategory;
+window.openCategoryManager = openCategoryManager;
+  });
+
+  // 数据缓存和渲染
+  let allData = {};
+  let allOrder = [];
+  let currentCategoryFilter = "";
+
+  const itemList = document.getElementById("itemList");
+
+  function highlightKeyword(str, keyword) {
+    if (!keyword) return str;
+    const safe = s => s.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    return str.replace(new RegExp(safe(keyword), 'gi'), m => `<span style="background:#ffe082;color:#d32f2f;border-radius:4px;padding:0 2px;">${m}</span>`);
+  }
+
+  function renderAllItems(data, order) {
+    itemList.innerHTML = "";
+    (order || Object.keys(data)).forEach(name => {
+      if (data[name] !== undefined) createItemElement(name, data[name]);
+    });
+  }
+
+  function getCardCategory(obj) {
+    if (typeof obj === "object" && obj.category) return obj.category;
+    return "";
+  }
+
+  function getCardContent(obj) {
+    if (typeof obj === "object" && obj.content !== undefined) return obj.content;
+    return obj;
+  }
+
+  function createItemElement(itemName, obj = {}) {
+    let content = getCardContent(obj);
+    let category = getCardCategory(obj);
+
+    const container = document.createElement("div");
+    container.className = "item";
+    container.dataset.name = itemName;
+    container.onclick = () => openEditor(itemName);
+    container.addEventListener('click', (e) => {
+      if(e.target.tagName === 'BUTTON') e.stopPropagation();
     });
 
-    // 数据缓存和渲染
-    let allData = {};
-    let allOrder = [];
-    const itemList = document.getElementById("itemList");
+    // 分类 badge
+    if (category) {
+  let catDiv = document.createElement("div");
+  catDiv.className = "category-badge";
+  catDiv.textContent = category;
+  catDiv.style.margin = "0 auto 7px auto";
+  catDiv.style.background = "linear-gradient(90deg, #1976d2 65%, #1de9b6 100%)";
+  catDiv.style.fontWeight = "bold";
+  catDiv.style.fontSize = "15.5px";
+  catDiv.style.boxShadow = "0 2px 10px #1565c036";
+  catDiv.style.color = "#fff";
+  container.appendChild(catDiv);
+}
 
-    function renderAllItems(data, order) {
-      itemList.innerHTML = "";
-      (order || Object.keys(data)).forEach(name => {
-        if (data[name] !== undefined) createItemElement(name, data[name]);
-      });
+    // 标题
+    const title = document.createElement("div");
+    title.className = "title";
+    const keyword = document.getElementById("searchBox")?.value.trim();
+    if (keyword) {
+      title.innerHTML = highlightKeyword(itemName, keyword);
+    } else {
+      title.textContent = itemName;
     }
-    function highlightKeyword(str, keyword) {
-      if (!keyword) return str;
-      const safe = s => s.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-      return str.replace(new RegExp(safe(keyword), 'gi'), m => `<span style="background:#ffe082;color:#d32f2f;border-radius:4px;padding:0 2px;">${m}</span>`);
-    }
-    function createItemElement(itemName, content = "") {
-      const container = document.createElement("div");
-      container.className = "item";
-      container.dataset.name = itemName;
-      container.onclick = () => openEditor(itemName);
-      container.addEventListener('click', (e) => {
-        if(e.target.tagName === 'BUTTON') e.stopPropagation();
-      });
-      const title = document.createElement("div");
-      title.className = "title";
-      const keyword = document.getElementById("searchBox")?.value.trim();
-      if (keyword) {
-        title.innerHTML = highlightKeyword(itemName, keyword);
-      } else {
-        title.textContent = itemName;
-      }
-      const actions = document.createElement("div");
-      actions.className = "actions";
-      actions.innerHTML = `
-        <button onclick="openEditor('${itemName}')">修改</button>
-        <button onclick="deleteItem('${itemName}', event)">删除</button>
-      `;
-      container.appendChild(title);
-      container.appendChild(actions);
-      itemList.appendChild(container);
-    }
-    function addItem() {
-      const name = document.getElementById("newItem").value.trim();
-      if (!name) return alert("请输入名称");
-      db.ref('data/' + name).once("value").then(snapshot => {
-        if (snapshot.exists()) return alert("该选项已存在！");
-        db.ref('data/' + name).set("");
-        db.ref('order').once("value").then(snap => {
-          const order = snap.val() || [];
-          order.push(name);
-          db.ref('order').set(order);
-        });
-        document.getElementById("newItem").value = "";
-      });
-    }
-    function deleteItem(name, e) {
-      e.stopPropagation();
-      if (!confirm("确认删除？")) return;
-      db.ref('data/' + name).remove();
-      db.ref('order').once("value").then(snap => {
-        const order = (snap.val() || []).filter(n => n !== name);
-        db.ref('order').set(order);
-      });
-    }
+    container.appendChild(title);
 
-    // 编辑弹窗逻辑
-    let currentEditName = "";
-    function openEditor(name) {
-      db.ref('data/' + name).once("value").then(snapshot => {
-        const content = snapshot.val() || "";
-        currentEditName = name;
-        if (typeof content === "string" && content.startsWith("<table")) {
-          openDataTableModal(name, content);
-        } else {
-          document.getElementById("editTitleInput").value = name;
-          document.getElementById("editContent").innerHTML = content;
-          document.getElementById("editModal").classList.add("active");
-          setTimeout(() => {
-            document.getElementById("editTitleInput").focus();
-          }, 100);
+    // 操作
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    actions.innerHTML = `
+      <button onclick="openEditor('${itemName}')">修改</button>
+      <button onclick="deleteItem('${itemName}', event)">删除</button>
+    `;
+    container.appendChild(actions);
+
+    itemList.appendChild(container);
+  }
+
+  // 渲染分类下拉和筛选按钮
+  function renderCategorySelect(){
+    // 添加和编辑表单里的分类下拉
+    [
+      {sel:document.getElementById('newCategory'), inp:document.getElementById('newCategory_customInput')},
+      {sel:document.getElementById('editCategoryInput'), inp:document.getElementById('editCategoryInput_customInput')},
+      {sel:document.getElementById('dataTableCategoryInput'), inp:document.getElementById('dataTableCategoryInput_customInput')}
+    ].forEach(({sel,inp})=>{
+      if(!sel) return;
+      let old = sel.value;
+      sel.innerHTML = `<option value="">选择分类</option>` + 
+        CATEGORY_LIST.map(c=>`<option value="${c}">${c}</option>`).join('') +
+        `<option value="_custom_">自定义...</option>`;
+      sel.value = old || "";
+      if(inp) inp.style.display="none";
+    });
+    // 筛选区按钮
+    let filterGroup = document.getElementById('categoryFilterGroup');
+    if(filterGroup){
+      filterGroup.innerHTML = `<button class="filter-btn" data-value="">全部分类</button>` +
+        CATEGORY_LIST.map(c=>`<button class="filter-btn" data-value="${c}">${c}</button>`).join('');
+      let cur = document.getElementById('categoryFilter')?.value || "";
+      [...filterGroup.children].forEach(btn=>{
+        btn.classList.toggle('active', btn.dataset.value===cur);
+        btn.onclick = function(){
+          document.getElementById("categoryFilter").value = this.dataset.value;
+          filterByCategory();
+          [...filterGroup.children].forEach(b=>b.classList.remove('active'));
+          this.classList.add('active');
         }
       });
     }
-    function closeEdit() {
-      document.getElementById("editModal").classList.remove("active");
+    // 同步原select（隐藏，供代码兼容）
+    let sel = document.getElementById('categoryFilter');
+    if(sel){
+      let val = sel.value;
+      sel.innerHTML = `<option value="">全部分类</option>`+CATEGORY_LIST.map(c=>`<option value="${c}">${c}</option>`).join('');
+      sel.value = val || "";
     }
-    function saveEdit() {
-      const newTitle = document.getElementById("editTitleInput").value.trim();
-      const content = document.getElementById("editContent").innerHTML;
-      if (!newTitle) return alert("标题不能为空！");
-      if (newTitle !== currentEditName) {
-        db.ref('data/' + currentEditName).remove();
-        db.ref('data/' + newTitle).set(content);
-        db.ref('order').once("value").then(snap => {
-          const order = (snap.val() || []).map(n => n === currentEditName ? newTitle : n);
-          db.ref('order').set(order);
-        });
-      } else {
-        db.ref('data/' + currentEditName).set(content);
-      }
-      closeEdit();
-    }
-    document.addEventListener('keydown', function(e){
-      if(document.getElementById("editModal").classList.contains("active")) {
-        if(e.key==="Escape") closeEdit();
-      }
-    });
-    document.getElementById("editModal").addEventListener("click", function(e){
-      if(e.target === this) closeEdit();
-    });
+  }
+  renderCategorySelect();
 
-    // 搜索
-    function searchItems() {
-      const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
-      if (!keyword) {
-        renderAllItems(allData, allOrder);
-        return;
+  // 监听自定义分类输入和切换
+  [
+    {sel:'newCategory',inp:'newCategory_customInput'},
+    {sel:'editCategoryInput',inp:'editCategoryInput_customInput'},
+    {sel:'dataTableCategoryInput',inp:'dataTableCategoryInput_customInput'}
+  ].forEach(({sel,inp})=>{
+    let select = document.getElementById(sel);
+    let input = document.getElementById(inp);
+    select.addEventListener('change',function(){
+      if(this.value==="_custom_"){
+        input.style.display="";
+        input.value="";
+        input.focus();
+      }else{
+        input.style.display="none";
       }
-      const filtered = {};
-      for (let k of allOrder) {
-        const content = (allData[k] || "");
-        if (
-          k.toLowerCase().includes(keyword) ||
-          (typeof content === "string" && content.toLowerCase().includes(keyword))
-        ) {
-          filtered[k] = content;
+    });
+    input.addEventListener('keydown',function(e){
+      if(e.key==="Enter"){
+        let val = input.value.trim();
+        if(val && !CATEGORY_LIST.includes(val)){
+          CATEGORY_LIST.push(val);
+          saveCategoryList();
+          renderCategorySelect();
         }
-      }
-      renderAllItems(filtered, Object.keys(filtered));
-      if (Object.keys(filtered).length === 0) {
-        itemList.innerHTML = `<div style="grid-column: 1/-1;text-align:center;font-size:1.15em;padding:48px 0;color:#1976d2a0;">
-          未找到相关内容，请尝试其他关键词
-        </div>`;
-      }
-    }
-
-    db.ref().on("value", snapshot => {
-      const val = snapshot.val() || {};
-      allData = val.data || {};
-      allOrder = val.order || Object.keys(allData);
-      renderAllItems(allData, allOrder);
-    });
-
-    new Sortable(itemList, {
-      animation: 150,
-      delay: 2000,
-      delayOnTouchOnly: true,
-      touchStartThreshold: 3,
-      onEnd: function () {
-        const newOrder = [...itemList.children].map(div => div.dataset.name);
-        db.ref('order').set(newOrder);
+        select.value = val;
+        input.style.display="none";
       }
     });
+  });
 
-    // 表格弹窗和自动求和（不卡光标）
-    let currentDataTableTitle = ""; // 关键变量：记录正在编辑的数据表原始标题
+  // 分类管理弹窗
+  document.getElementById("openCategoryManagerBtn").onclick = openCategoryManager;
+  function openCategoryManager(){
+    renderCategoryManager();
+    document.getElementById("categoryManagerModal").classList.add("active");
+  }
+  function closeCategoryManager(){
+    document.getElementById("categoryManagerModal").classList.remove("active");
+  }
+window.closeCategoryManager = closeCategoryManager;
+  function renderCategoryManager() {
+    let ul = document.getElementById("categoryList");
+    ul.innerHTML = "";
+    CATEGORY_LIST.forEach((cat, idx) => {
+      // 统计分类下数据数量
+      let count = 0;
+      for (let key in allData) {
+        if (allData[key].category === cat) count++;
+      }
 
-    function openDataTableModal(name = "", tableHtml = "") {
-      document.getElementById("dataTableTitleInput").value = name || "";
-      currentDataTableTitle = name || ""; // 记住原始标题
-      let dataArr = [];
-      if (tableHtml) {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = tableHtml;
-        const rows = tempDiv.querySelectorAll("tr");
-        rows.forEach(tr => {
-          let rowArr = [];
-          tr.querySelectorAll("td").forEach(td => {
-            rowArr.push((td.textContent || '').replace(/"/g, '&quot;'));
-          });
-          dataArr.push(rowArr);
-        });
-      } else {
-        for(let i=0;i<10;i++){
-          let rowArr = [];
-          for(let j=0;j<15;j++) rowArr.push('');
-          dataArr.push(rowArr);
-        }
-      }
-      buildTable(dataArr);
-      document.getElementById("dataTableModal").classList.add("active");
-    }
-    function buildTable(arr) {
-      const colCount = arr[0]?.length || 0;
-      let html = "";
-      for (let i=0; i<arr.length; i++) {
-        html += "<tr>";
-        for (let j=0; j<colCount; j++) {
-          html += `<td><input type="text" value="${arr[i][j].replace(/"/g,'&quot;')}" oninput="updateTableSumRow()" /></td>`;
-        }
-        html += "</tr>";
-      }
-      document.getElementById("customTable").innerHTML = html;
-      updateTableSumRow();
-    }
-    window.updateTableSumRow = function() {
-      const trs = document.querySelectorAll("#customTable tr");
-      let arr = [];
-      let colCount = 0;
-      trs.forEach(tr => {
-        let row = [];
-        tr.querySelectorAll('td input').forEach(inp => row.push(inp.value));
-        if (row.length > colCount) colCount = row.length;
-        arr.push(row);
-      });
-      arr = arr.map(row => {
-        while(row.length < colCount) row.push("");
-        return row;
-      });
-      // 计算各列和
-      let sumArr = [];
-      for (let j=0;j<colCount;j++) {
-        let sum = 0, isNumberCol = false;
-        for (let i=0;i<arr.length;i++) {
-          let val = arr[i][j];
-          let num = parseFloat(val);
-          if (!isNaN(num) && val !== "") {
-            sum += num;
-            isNumberCol = true;
+      let li = document.createElement("li");
+      li.className = "cat-item";
+
+      // 分类名和数量
+      let nameSpan = document.createElement("span");
+      nameSpan.className = "cat-name";
+      nameSpan.textContent = cat;
+
+      let countSpan = document.createElement("span");
+      countSpan.className = "cat-count";
+      countSpan.textContent = count;
+
+      li.appendChild(nameSpan);
+      li.appendChild(countSpan);
+
+      // 重命名按钮
+      let renameBtn = document.createElement("button");
+      renameBtn.className = "cat-btn";
+      renameBtn.title = "重命名";
+      renameBtn.innerHTML = "✏️";
+      renameBtn.onclick = function (e) {
+        e.stopPropagation();
+        let val = prompt("重命名为：", cat);
+        if (!val || val === cat || CATEGORY_LIST.includes(val)) return;
+        for (let key in allData) {
+          if (allData[key].category === cat) {
+            db.ref('data/' + key).update({ category: val });
           }
         }
-        sumArr[j] = isNumberCol ? sum : "";
-      }
-      // 求和行渲染
-      let sumTr = document.getElementById("sumRow");
-      if (!sumTr) {
-        sumTr = document.createElement("tr");
-        sumTr.id = "sumRow";
-        sumTr.style.background = "#e3f2fd";
-        sumTr.style.fontWeight = "bold";
-        document.getElementById("customTable").appendChild(sumTr);
-      }
-      let sumHtml = "";
-      for (let j=0;j<colCount;j++) {
-        sumHtml += `<td>${sumArr[j]!=="" ? sumArr[j] : ""}</td>`;
-      }
-      sumTr.innerHTML = sumHtml;
-    };
+        CATEGORY_LIST[idx] = val;
+        saveCategoryList();
+        renderCategoryManager();
+        renderCategorySelect();
+      };
+      li.appendChild(renameBtn);
 
-    function closeDataTable(){
-      document.getElementById("dataTableModal").classList.remove("active");
+      // 删除按钮
+      let delBtn = document.createElement("button");
+      delBtn.className = "cat-btn del";
+      delBtn.title = "删除";
+      delBtn.innerHTML = "🗑️";
+      delBtn.onclick = function (e) {
+        e.stopPropagation();
+        if (!confirm(`删除分类“${cat}”后，相关数据的分类将被清空。确定？`)) return;
+        for (let key in allData) {
+          if (allData[key].category === cat) {
+            db.ref('data/' + key).update({ category: "" });
+          }
+        }
+        CATEGORY_LIST.splice(idx, 1);
+        saveCategoryList();
+        renderCategoryManager();
+        renderCategorySelect();
+      };
+      li.appendChild(delBtn);
+
+      ul.appendChild(li);
+    });
+  }
+  document.getElementById("addCategoryBtn").onclick = function(){
+    let val = document.getElementById("newCategoryInput").value.trim();
+    if(val && !CATEGORY_LIST.includes(val)){
+      CATEGORY_LIST.push(val);
+      saveCategoryList();
+      renderCategoryManager();
+      renderCategorySelect();
+      document.getElementById("newCategoryInput").value="";
     }
+  }
 
-    function saveDataTable(){
-      const titleInput = document.getElementById("dataTableTitleInput");
-      let title = titleInput.value.trim();
-      if(!title) return alert("标题不能为空！");
-      // 获取表格内容
-      const trs = document.querySelectorAll("#customTable tr");
-      let arr = [];
-      trs.forEach((tr, idx) => {
-        if (tr.id === "sumRow") return;
-        let row = [];
-        tr.querySelectorAll('td input').forEach(inp=>row.push(inp.value));
-        arr.push(row);
-      });
-      let tableHtml = "<table border='1' style='border-collapse:collapse'>";
-      arr.forEach(row=>{
-        tableHtml += "<tr>";
-        row.forEach(cell=>{
-          tableHtml += `<td style="min-width:40px;padding:3px 8px">${cell?cell:""}</td>`;
-        });
-        tableHtml += "</tr>";
-      });
-      tableHtml += "</table>";
-
-      // 新增/重命名/覆盖核心逻辑
-      if (title !== currentDataTableTitle && currentDataTableTitle) {
-        // 重命名，删除旧 key 并更新 order
-        firebase.database().ref('data/' + currentDataTableTitle).remove();
-        firebase.database().ref('order').once("value").then(snap => {
-          let order = snap.val() || [];
-          order = order.map(v => v === currentDataTableTitle ? title : v);
-          firebase.database().ref('order').set(order);
-        });
+  // 新增 item 支持分类（含自定义）
+  function addItem() {
+    const name = document.getElementById("newItem").value.trim();
+    let catSel = document.getElementById("newCategory");
+    let cat = catSel.value;
+    if(cat === "_custom_"){
+      cat = document.getElementById("newCategory_customInput").value.trim();
+      if(cat && !CATEGORY_LIST.includes(cat)){
+        CATEGORY_LIST.push(cat); saveCategoryList(); renderCategorySelect();
       }
+    }
+    if (!name) return alert("请输入名称");
+    db.ref('data/' + name).once("value").then(snapshot => {
+      if (snapshot.exists()) return alert("该选项已存在！");
+      db.ref('data/' + name).set({ content: "", category: cat });
+      db.ref('order').once("value").then(snap => {
+        const order = snap.val() || [];
+        order.push(name);
+        db.ref('order').set(order);
+      });
+      document.getElementById("newItem").value = "";
+      catSel.value = "";
+      document.getElementById("newCategory_customInput").style.display="none";
+    });
+  }
 
-      // 正常保存/新建
-      firebase.database().ref('data/' + title).set(tableHtml);
-      firebase.database().ref('order').once("value").then(snap => {
-        let order = snap.val() || [];
-        if (!order.includes(title)) {
-          order.push(title);
-          firebase.database().ref('order').set(order);
+  window.openEditor = openEditor;
+  function deleteItem(name, e) {
+    e.stopPropagation();
+    if (!confirm("确认删除？")) return;
+    db.ref('data/' + name).remove();
+    db.ref('order').once("value").then(snap => {
+      const order = (snap.val() || []).filter(n => n !== name);
+      db.ref('order').set(order);
+    });
+  }
+  window.deleteItem = deleteItem;
+
+  // 编辑弹窗逻辑
+  let currentEditName = "";
+
+  function openEditor(name) {
+    db.ref('data/' + name).once("value").then(snapshot => {
+      let data = snapshot.val();
+      let content, category;
+      if (typeof data === "object") {
+        content = data.content || "";
+        category = data.category || "";
+      } else if (typeof data === "string" && data.startsWith("<table")) {
+        openDataTableModal(name, data);
+        return;
+      } else {
+        content = data || "";
+        category = "";
+      }
+      currentEditName = name;
+      document.getElementById("editTitleInput").value = name;
+      document.getElementById("editCategoryInput").value = category || "";
+      document.getElementById("editCategoryInput_customInput").style.display="none";
+      document.getElementById("editContent").innerHTML = content;
+      document.getElementById("editModal").classList.add("active");
+      setTimeout(() => {
+        document.getElementById("editTitleInput").focus();
+      }, 100);
+    });
+  }
+  function closeEdit() {
+    document.getElementById("editModal").classList.remove("active");
+  }
+  function saveEdit() {
+    const newTitle = document.getElementById("editTitleInput").value.trim();
+    let catSel = document.getElementById("editCategoryInput");
+    let newCategory = catSel.value;
+    if(newCategory==="_custom_"){
+      newCategory = document.getElementById("editCategoryInput_customInput").value.trim();
+      if(newCategory && !CATEGORY_LIST.includes(newCategory)){
+        CATEGORY_LIST.push(newCategory); saveCategoryList(); renderCategorySelect();
+      }
+    }
+    const content = document.getElementById("editContent").innerHTML;
+    if (!newTitle) return alert("标题不能为空！");
+    let obj = { content, category: newCategory };
+    if (newTitle !== currentEditName) {
+      db.ref('data/' + currentEditName).remove();
+      db.ref('data/' + newTitle).set(obj);
+      db.ref('order').once("value").then(snap => {
+        const order = (snap.val() || []).map(n => n === currentEditName ? newTitle : n);
+        db.ref('order').set(order);
+      });
+    } else {
+      db.ref('data/' + currentEditName).set(obj);
+    }
+    closeEdit();
+  }
+  document.addEventListener('keydown', function(e){
+    if(document.getElementById("editModal").classList.contains("active")) {
+      if(e.key==="Escape") closeEdit();
+    }
+  });
+  document.getElementById("editModal").addEventListener("click", function(e){
+    if(e.target === this) closeEdit();
+  });
+
+  // 搜索
+  function searchItems() {
+    const keyword = document.getElementById("searchBox").value.trim().toLowerCase();
+    let categorySelected = document.getElementById("categoryFilter").value;
+    let filtered = {};
+    for (let k of allOrder) {
+      let obj = allData[k];
+      let category = getCardCategory(obj);
+      let content = getCardContent(obj) || "";
+      if (
+        (!categorySelected || category === categorySelected) &&
+        (
+          k.toLowerCase().includes(keyword) ||
+          (typeof content === "string" && content.toLowerCase().includes(keyword))
+        )
+      ) {
+        filtered[k] = obj;
+      }
+    }
+    renderAllItems(filtered, Object.keys(filtered));
+    if (Object.keys(filtered).length === 0) {
+      itemList.innerHTML = `<div style="grid-column: 1/-1;text-align:center;font-size:1.15em;padding:48px 0;color:#1976d2a0;">
+        未找到相关内容，请尝试其他关键词
+      </div>`;
+    }
+  }
+
+  // 分类筛选
+  function filterByCategory() {
+    const selected = document.getElementById("categoryFilter").value;
+    currentCategoryFilter = selected;
+    let keyword = document.getElementById("searchBox").value.trim().toLowerCase();
+    if (!selected && !keyword) {
+      renderAllItems(allData, allOrder);
+      return;
+    }
+    let filtered = {};
+    for (let k of allOrder) {
+      let obj = allData[k];
+      let category = getCardCategory(obj);
+      let content = getCardContent(obj) || "";
+      if (
+        (!selected || category === selected) &&
+        (!keyword || k.toLowerCase().includes(keyword) ||
+         (typeof content === "string" && content.toLowerCase().includes(keyword)))
+      ) {
+        filtered[k] = obj;
+      }
+    }
+    renderAllItems(filtered, Object.keys(filtered));
+    if (Object.keys(filtered).length === 0) {
+      itemList.innerHTML = `<div style="grid-column: 1/-1;text-align:center;font-size:1.15em;padding:48px 0;color:#1976d2a0;">
+        未找到相关内容，请尝试其他关键词
+      </div>`;
+    }
+  }
+
+  db.ref().on("value", snapshot => {
+    const val = snapshot.val() || {};
+    allData = val.data || {};
+    allOrder = val.order || Object.keys(allData);
+    renderCategorySelect();
+    if (currentCategoryFilter || document.getElementById("searchBox").value.trim()) {
+      filterByCategory();
+    } else {
+      renderAllItems(allData, allOrder);
+    }
+  });
+
+  new Sortable(itemList, {
+    animation: 150,
+    delay: 2000,
+    delayOnTouchOnly: true,
+    touchStartThreshold: 3,
+    onEnd: function () {
+      const newOrder = [...itemList.children].map(div => div.dataset.name);
+      db.ref('order').set(newOrder);
+    }
+  });
+
+  // 数据表弹窗和自动求和（不卡光标）
+  let currentDataTableTitle = "";
+
+  function openDataTableModal(name = "", tableHtml = "") {
+    document.getElementById("dataTableTitleInput").value = name || "";
+    currentDataTableTitle = name || "";
+    let cat = "";
+    if (name) {
+      db.ref('data/' + name).once("value").then(snapshot => {
+        let val = snapshot.val();
+        if (typeof val === "object" && val.category) {
+          document.getElementById("dataTableCategoryInput").value = val.category;
+        } else {
+          document.getElementById("dataTableCategoryInput").value = "";
         }
       });
-
-      closeDataTable();
+    } else {
+      document.getElementById("dataTableCategoryInput").value = "";
     }
 
-    document.getElementById("dataTableModal").addEventListener("click",function(e){
-      if(e.target === this) closeDataTable();
+    let dataArr = [];
+    if (tableHtml) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = tableHtml;
+      const rows = tempDiv.querySelectorAll("tr");
+      rows.forEach(tr => {
+        let rowArr = [];
+        tr.querySelectorAll("td").forEach(td => {
+          rowArr.push((td.textContent || '').replace(/"/g, '&quot;'));
+        });
+        dataArr.push(rowArr);
+      });
+    } else {
+      for(let i=0;i<10;i++){
+        let rowArr = [];
+        for(let j=0;j<15;j++) rowArr.push('');
+        dataArr.push(rowArr);
+      }
+    }
+    buildTable(dataArr);
+    document.getElementById("dataTableModal").classList.add("active");
+    document.getElementById("dataTableCategoryInput_customInput").style.display="none";
+  }
+  function buildTable(arr) {
+    const colCount = arr[0]?.length || 0;
+    let html = "";
+    for (let i=0; i<arr.length; i++) {
+      html += "<tr>";
+      for (let j=0; j<colCount; j++) {
+        html += `<td><input type="text" value="${arr[i][j].replace(/"/g,'&quot;')}" oninput="updateTableSumRow()" /></td>`;
+      }
+      html += "</tr>";
+    }
+    document.getElementById("customTable").innerHTML = html;
+    updateTableSumRow();
+  }
+  window.updateTableSumRow = function() {
+    const trs = document.querySelectorAll("#customTable tr");
+    let arr = [];
+    let colCount = 0;
+    trs.forEach(tr => {
+      let row = [];
+      tr.querySelectorAll('td input').forEach(inp => row.push(inp.value));
+      if (row.length > colCount) colCount = row.length;
+      arr.push(row);
     });
-  </script>
+    arr = arr.map(row => {
+      while(row.length < colCount) row.push("");
+      return row;
+    });
+    // 计算各列和
+    let sumArr = [];
+    for (let j=0;j<colCount;j++) {
+      let sum = 0, isNumberCol = false;
+      for (let i=0;i<arr.length;i++) {
+        let val = arr[i][j];
+        let num = parseFloat(val);
+        if (!isNaN(num) && val !== "") {
+          sum += num;
+          isNumberCol = true;
+        }
+      }
+      sumArr[j] = isNumberCol ? sum : "";
+    }
+    // 求和行渲染
+    let sumTr = document.getElementById("sumRow");
+    if (!sumTr) {
+      sumTr = document.createElement("tr");
+      sumTr.id = "sumRow";
+      sumTr.style.background = "#e3f2fd";
+      sumTr.style.fontWeight = "bold";
+      document.getElementById("customTable").appendChild(sumTr);
+    }
+    let sumHtml = "";
+    for (let j=0;j<colCount;j++) {
+      sumHtml += `<td>${sumArr[j]!=="" ? sumArr[j] : ""}</td>`;
+    }
+    sumTr.innerHTML = sumHtml;
+  };
+
+  function closeDataTable(){
+    document.getElementById("dataTableModal").classList.remove("active");
+  }
+
+  function saveDataTable(){
+    const titleInput = document.getElementById("dataTableTitleInput");
+    let title = titleInput.value.trim();
+    let catSel = document.getElementById("dataTableCategoryInput");
+    let cat = catSel.value;
+    if(cat === "_custom_"){
+      cat = document.getElementById("dataTableCategoryInput_customInput").value.trim();
+      if(cat && !CATEGORY_LIST.includes(cat)){
+        CATEGORY_LIST.push(cat); saveCategoryList(); renderCategorySelect();
+      }
+    }
+    if(!title) return alert("标题不能为空！");
+    // 获取表格内容
+    const trs = document.querySelectorAll("#customTable tr");
+    let arr = [];
+    trs.forEach((tr, idx) => {
+      if (tr.id === "sumRow") return;
+      let row = [];
+      tr.querySelectorAll('td input').forEach(inp=>row.push(inp.value));
+      arr.push(row);
+    });
+    let tableHtml = "<table border='1' style='border-collapse:collapse'>";
+    arr.forEach(row=>{
+      tableHtml += "<tr>";
+      row.forEach(cell=>{
+        tableHtml += `<td style="min-width:40px;padding:3px 8px">${cell?cell:""}</td>`;
+      });
+      tableHtml += "</tr>";
+    });
+    tableHtml += "</table>";
+
+    let obj = { content: tableHtml, category: cat };
+
+    if (title !== currentDataTableTitle && currentDataTableTitle) {
+      // 重命名，删除旧 key 并更新 order
+      firebase.database().ref('data/' + currentDataTableTitle).remove();
+      firebase.database().ref('order').once("value").then(snap => {
+        let order = snap.val() || [];
+        order = order.map(v => v === currentDataTableTitle ? title : v);
+        firebase.database().ref('order').set(order);
+      });
+    }
+
+    firebase.database().ref('data/' + title).set(obj);
+    firebase.database().ref('order').once("value").then(snap => {
+      let order = snap.val() || [];
+      if (!order.includes(title)) {
+        order.push(title);
+        firebase.database().ref('order').set(order);
+      }
+    });
+
+    closeDataTable();
+  }
+
+  document.getElementById("dataTableModal").addEventListener("click",function(e){
+    if(e.target === this) closeDataTable();
+  });
+
+});
+</script>
 </body>
 </html>
