@@ -1299,23 +1299,30 @@ window.closeCategoryManager = closeCategoryManager;
     let obj = { content: tableHtml, category: cat };
 
     if (title !== currentDataTableTitle && currentDataTableTitle) {
-      // 重命名，删除旧 key 并更新 order
-      firebase.database().ref('data/' + currentDataTableTitle).remove();
-      firebase.database().ref('order').once("value").then(snap => {
-        let order = snap.val() || [];
-        order = order.map(v => v === currentDataTableTitle ? title : v);
-        firebase.database().ref('order').set(order);
-      });
+  // 重命名，删除旧 key，并更新顺序
+  firebase.database().ref('data/' + currentDataTableTitle).remove();
+  firebase.database().ref('order').once("value").then(snap => {
+    let order = snap.val() || [];
+    // 只做替换，不再push
+    order = order.map(v => v === currentDataTableTitle ? title : v);
+    firebase.database().ref('order').set(order);
+  });
+} else {
+  // 新增时，才push到末尾
+  firebase.database().ref('order').once("value").then(snap => {
+    let order = snap.val() || [];
+    if (!order.includes(title)) {
+      order.push(title);
+      firebase.database().ref('order').set(order);
     }
+  });
+}
 
-    firebase.database().ref('data/' + title).set(obj);
-    firebase.database().ref('order').once("value").then(snap => {
-      let order = snap.val() || [];
-      if (!order.includes(title)) {
-        order.push(title);
-        firebase.database().ref('order').set(order);
-      }
-    });
+// 保存数据（无论重命名还是新增都要有）
+firebase.database().ref('data/' + title).set(obj);
+
+closeDataTable();
+
 
     closeDataTable();
   }
