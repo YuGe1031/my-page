@@ -422,14 +422,40 @@
     @media (max-width:900px) {
       main { padding: 4vw 2vw; }
       .main-flex { flex-direction: column; }
-      .sidebar { flex-direction: row; gap: 12px; max-width: none; min-width: 0; padding: 7px 0 0 0;}
-      .filter-group { flex-direction: row; gap: 9px; }
-      .filter-btn, .cat-mgr-btn { width: auto; min-width: 90px; padding: 9px 14px;}
-      .cat-mgr-btn { margin-top: 0; }
+      .sidebar {
+    flex-direction: row !important;
+    max-width: 100%;
+    min-width: 0;
+    padding: 6px 4px;
+    overflow-x: visible;       /* 取消横向滚动 */
+    box-sizing: border-box;
+    flex-wrap: wrap;           /* 允许换行 */
+    gap: 8px;
+  }
+      .filter-group {
+    flex-direction: row !important;
+    gap: 8px;
+    display: flex;
+    flex-wrap: wrap;           /* 允许换行 */
+    white-space: normal;       /* 取消 nowrap */
+  }
+      .filter-btn, .cat-mgr-btn {
+    flex: 0 1 auto;            /* 宽度自动，允许缩小 */
+    width: auto !important;
+    max-width: 45vw;           /* 最大宽度，防止撑破屏幕 */
+    padding: 8px 14px;
+    font-size: 14px;
+    white-space: normal;       /* 允许换行 */
+    box-sizing: border-box;
+  }
+      .cat-mgr-btn {
+    margin-top: 0;
+    font-weight: bold;
+  }
       .container { gap: 18px 7px; }
-      .item { min-width: 130px; }
-      .edit-box { min-width: 0; padding: 12px 3vw 10px 3vw;}
-    }
+  .item { min-width: 130px; }
+  .edit-box { min-width: 0; padding: 12px 3vw 10px 3vw; }
+}
     @media (max-width:600px) {
       .edit-box { padding: 7px 1vw 9px 1vw;}
       .input-group { padding: 9px 2vw; }
