@@ -1005,10 +1005,21 @@ document.addEventListener("DOMContentLoaded", function() {
         e.stopPropagation();
         if (!confirm(`删除分类“${cat}”后，相关数据的分类将被清空。确定？`)) return;
         for (const key in allData) {
-          if (allData[key].category === cat) {
-            db.ref('data/' + key).update({ category: "" }).catch(e => alert("删除分类时数据库错误：" + e.message));
-          }
-        }
+  if (allData[key].category === cat) {
+    // 清空分类字段
+    db.ref('data/' + key).update({ category: "" }).catch(e => alert("删除分类时数据库错误：" + e.message));
+  }
+}
+
+// 安全更新 order，保留所有 data 中存在的 key
+db.ref('data').once('value').then(snap => {
+  const validKeys = Object.keys(snap.val() || {});
+  db.ref('order').once('value').then(orderSnap => {
+    const currentOrder = orderSnap.val() || [];
+    const newOrder = currentOrder.filter(k => validKeys.includes(k));
+    db.ref('order').set(newOrder);
+  });
+});
         CATEGORY_LIST.splice(idx, 1);
         saveCategoryList();
         renderCategoryManager();
@@ -1120,43 +1131,44 @@ document.addEventListener("DOMContentLoaded", function() {
     return container;
   }
 
-  function addItem() {
-    const name = document.getElementById("newItem").value.trim();
-    let catSel = document.getElementById("newCategory");
-    let cat = catSel.value;
-    if(cat === "_custom_"){
-      cat = document.getElementById("newCategory_customInput").value.trim();
-      if(cat && !CATEGORY_LIST.includes(cat)){
-        CATEGORY_LIST.push(cat);
-        saveCategoryList();
-        renderCategorySelect();
-      }
+function addItem() {
+  const name = document.getElementById("newItem").value.trim();
+  if (!name) return alert("请输入名称");
+
+  let catSel = document.getElementById("newCategory");
+  let cat = catSel.value;
+  if (cat === "_custom_") {
+    cat = document.getElementById("newCategory_customInput").value.trim();
+    if (cat && !CATEGORY_LIST.includes(cat)) {
+      CATEGORY_LIST.push(cat);
+      saveCategoryList();
+      renderCategorySelect();
     }
-    if (!name) return alert("请输入名称");
-    db.ref('data/' + name).once("value").then(snapshot => {
-      if (snapshot.exists()) return alert("该选项已存在！");
-      db.ref('data/' + name).set({ content: "", category: cat }).catch(e => alert("添加失败：" + e.message));
-      db.ref('order').once("value").then(snap => {
-        const order = snap.val() || [];
-        order.push(name);
-        db.ref('order').set(order);
-      });
+  }
+
+  db.ref('data/' + name).once("value").then(snapshot => {
+    if (snapshot.exists()) return alert("该选项已存在！");
+
+    // ✅ 先写入 data，再写入 order（顺序很重要）
+    db.ref('data/' + name).set({ content: "", category: cat }, err => {
+      if (err) return alert("写入失败，请重试");
+
+      // 然后再添加到 order 中（安全写法）
+      db.ref('order').transaction(currentOrder => {
+  if (!Array.isArray(currentOrder)) currentOrder = [];
+  if (!currentOrder.includes(name)) currentOrder.push(name);
+  return currentOrder;
+});
+
+
+      // ✅ 清空表单
       document.getElementById("newItem").value = "";
       catSel.value = "";
-      document.getElementById("newCategory_customInput").style.display="none";
+      document.getElementById("newCategory_customInput").style.display = "none";
     });
-  }
+  });
+}
   window.addItem = addItem;
-
-  function deleteItem(name, e) {
-    e.stopPropagation();
-    if (!confirm("确认删除？")) return;
-    db.ref('data/' + name).remove().catch(e => alert("删除失败：" + e.message));
-    db.ref('order').once("value").then(snap => {
-      const order = (snap.val() || []).filter(n => n !== name);
-      db.ref('order').set(order);
-    });
-  }
   window.deleteItem = deleteItem;
 
   let currentEditName = "";
@@ -1211,6 +1223,19 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     closeEdit();
   }
+function deleteItem(name, e) {
+  e?.preventDefault();        // 阻止默认跳转或表单提交
+  e?.stopPropagation();       // 阻止事件冒泡，避免触发卡片点击事件
+
+  if (!confirm(`确定要删除 "${name}" 吗？删除后不可恢复。`)) return;
+
+  db.ref('data/' + name).remove();
+  db.ref('order').once("value").then(snap => {
+    const order = snap.val() || [];
+    const newOrder = order.filter(item => item !== name);
+    db.ref('order').set(newOrder);
+  });
+}
   window.saveEdit = saveEdit;
 
   document.addEventListener('keydown', e => {
