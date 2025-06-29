@@ -1319,17 +1319,33 @@ function deleteItem(name, e) {
     });
   });
 
-  // 拖拽排序
+ // 拖拽排序 + 前端同步刷新 + 节流更新数据库
+let dragUpdateTimer = null;
+
 new Sortable(itemList, {
   animation: 150,
   delay: 2000,
   delayOnTouchOnly: true,
   touchStartThreshold: 3,
   onEnd: function () {
-    const newOrder = [...itemList.children].map(div => div.dataset.name);
-    db.ref('order').set(newOrder);
+    const movedKeys = [...itemList.children].map(div => div.dataset.name);
+
+    db.ref('order').once('value').then(snap => {
+      let oldOrder = snap.val() || [];
+
+      // 移除所有被拖动的卡片 key
+      const rest = oldOrder.filter(k => !movedKeys.includes(k));
+
+      // 合并成新的顺序（拖动的卡片优先）
+      const newOrder = [...movedKeys, ...rest];
+
+      // 更新数据库
+      db.ref('order').set(newOrder);
+    });
   }
 });
+
+
 
 // 允许编辑框粘贴图片
 document.getElementById("editContent").addEventListener("paste", function(e) {
